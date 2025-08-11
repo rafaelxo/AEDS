@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class exercicio1 {
-    public class Tipo {
+    public static class Tipo {
         private int codigo;
         private double percentual;
     public Tipo() { setCodigo(1); }
@@ -30,7 +30,7 @@ public class exercicio1 {
             System.out.println("Percentual de imposto: " + getPercentual() + "%");
         }
     }
-    public class Produto {
+    public static class Produto {
         private String descricao;
         private Tipo tipo = new Tipo();
         private double preco, imposto;
@@ -84,5 +84,6 @@ public class exercicio1 {
         Produto p = new Produto();
         p.preenche(sc); p.exibe();
         System.out.println("Preço final do produto: " + p.getFinal() + " reais");
+        sc.close();
     }
 }

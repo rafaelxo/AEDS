@@ -1,10 +1,9 @@
 import java.util.Scanner;
 
 public class exercicio2 {
-    public class Tipo {
+    public static class Tipo {
         private int codigo;
         private double percentual;
-
         public Tipo() { setCodigo(1); }
         public void setCodigo(int num) {
             try {
@@ -32,7 +31,7 @@ public class exercicio2 {
         }
     }
 
-    public class Produto {
+    public static class Produto {
         private String descricao;
         private Tipo tipo = new Tipo();
         private double preco, imposto;
@@ -99,5 +98,6 @@ public class exercicio2 {
             else if (p[i].getFinal() < media) System.out.println("Produto " + (i + 1) + " tem preço abaixo da média!");
             else System.out.println("Produto " + (i + 1) + " tem preço igual à média!");
         }
+        sc.close();
     }
 }

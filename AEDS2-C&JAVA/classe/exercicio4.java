@@ -98,8 +98,8 @@ public class Terreno extends Imovel {
     public double calcularIptu() { return getVenda() * 0.02; }
 }
 
-public class Main {
-    public static void menu() {
+public class exercicio4 {
+    public static int menu() {
         int opcao;
         System.out.println("\nMenu:\n");
         System.out.println("1 - Cadastrar imovel");
@@ -124,15 +124,15 @@ public class Main {
         System.out.print("Lote: ");
         lot = scanner.nextInt();
         System.out.print("Area: ");
-        ar = scanner.nextdouble();
+        ar = scanner.nextDouble();
         System.out.print("Valor de venda: ");
-        venda = scanner.nextdouble();
+        venda = scanner.nextDouble();
         System.out.print("Situacao (1 - a venda, 2 - vendido, 3 - em negociacao): ");
         sit = scanner.nextInt();
         if (sit == 2) {
             double percent;
             System.out.print("Percentual de comissao (<= 10%): ");
-            percent = scanner.nextdouble();
+            percent = scanner.nextDouble();
             if (percent > 10 || percent < 0) {
                 System.out.println("Percentual invalido!");
                 scanner.nextLine();
@@ -141,7 +141,7 @@ public class Main {
             comissao = venda * (percent / 100);
         }
         System.out.print("Area construida: ");
-        constr = scanner.nextdouble();
+        constr = scanner.nextDouble();
         return new Casa(prop, quad, lot, sit, ar, venda, comissao, constr);
     }
     public static Terreno geraNovoTerreno() {
@@ -156,15 +156,15 @@ public class Main {
         System.out.print("Lote: ");
         lot = scanner.nextInt();
         System.out.print("Area: ");
-        ar = scanner.nextdouble();
+        ar = scanner.nextDouble();
         System.out.print("Valor de venda: ");
-        venda = scanner.nextdouble();
+        venda = scanner.nextDouble();
         System.out.print("Situacao (1 - a venda, 2 - vendido, 3 - em negociacao): ");
         sit = scanner.nextInt();
         if (sit == 2) {
             double percent;
             System.out.print("Percentual de comissao (<= 10%): ");
-            percent = scanner.nextdouble();
+            percent = scanner.nextDouble();
             if (percent > 10 || percent < 0) {
                 System.out.println("Percentual invalido!");
                 scanner.nextLine();
@@ -211,7 +211,7 @@ public class Main {
         else if (novaSit == 2) {
             double percent;
             System.out.print("Percentual de comissao (<= 10%): ");
-            percent = scanner.nextdouble();
+            percent = scanner.nextDouble();
             if (percent > 10 || percent < 0) {
                 System.out.println("Percentual invalido!");
                 new Scanner(System.in).nextLine();
@@ -282,5 +282,6 @@ public class Main {
                 new Scanner(System.in).nextLine();
             }
         } while (opcao != 5);
+        sc.close();
     }
 }
