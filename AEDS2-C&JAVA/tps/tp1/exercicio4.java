@@ -11,7 +11,7 @@ public class exercicio4 {
         }
         return nova; // retorno do método com a string alterada
     }
-    public static void main(String[] args) { // main do programa
+    public static void main (String[] args) { // main do programa
         String str = MyIO.readLine(); // declaração e leitura da string
         while (!str.equals("FIM")) { // loop para ler strings e realizar a alteração enquanto a string seja diferente de "FIM"
             System.out.println(alteracao(str)); // imprime o resultado da alteração ao chamar o método
