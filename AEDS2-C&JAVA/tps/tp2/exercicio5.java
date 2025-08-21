@@ -1,6 +1,8 @@
 public class exercicio5 {
     public static boolean anagrama (String str1, String str2) {
+        boolean resp = false;
         
+        return resp;
     }
     public static void main (String[] args) {
         String str1 = MyIO.readLine(); String str2 = MyIO.readLine();// declaração e leitura da string
