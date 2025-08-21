@@ -7,7 +7,11 @@ int somaDigitos (int n) {
 }
 
 int main () {
-    int n; scanf("%d", &n);
-    printf("%d\n", somaDigitos(n));
+    int n;
+    scanf("%d", &n);
+    while (n != -1) {
+      printf("%d\n", somaDigitos(n));
+      scanf("%d", &n);
+    }
     return 0;
 }
