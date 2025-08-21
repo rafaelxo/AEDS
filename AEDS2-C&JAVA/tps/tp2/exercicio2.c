@@ -1,17 +1,19 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
-int somaDigitos (int n) {
-    if (n < 10) return n;
-    else return n % 10 + somaDigitos(n / 10);
+bool Vogais (char str[]) {
+    int i = 0;
+    while (str[i] != '\0') {
+        char c = str[i];
+        if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')) return false;
+        if (c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u' && c != 'A' && c != 'E' && c != 'I' && c != 'O' && c != 'U') return false;
+        i++;
+    }
+    return true;
 }
 
 int main () {
-    int n;
-    scanf("%d", &n);
-    while (n != -1) {
-      printf("%d\n", somaDigitos(n));
-      scanf("%d", &n);
-    }
+
     return 0;
 }
