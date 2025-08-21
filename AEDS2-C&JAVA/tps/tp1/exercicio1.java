@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class exercicio1 {
     public static boolean palindromo (String str) { // método para verificar se a string é palíndromo
         boolean resp = false; // declaração do retorno booleano do método
@@ -14,16 +12,14 @@ public class exercicio1 {
                 i++; j--; // incrementa i e decrementa j para verificar os próximos caracteres
             }
         }
-        return resp; // retorno do método
+        return resp; // retorno do método (verdadeiro ou falso)
     }
     public static void main (String[] args) { // main do programa
-        Scanner sc = new Scanner(System.in);
-        String str = sc.nextLine(); // declaração e leitura da string
+        String str = MyIO.readLine(); // declaração e leitura da string
         while (!str.equals("FIM")) { // loop para ler strings e verifiar se essa é um palíndromo enquanto a string seja diferente de "FIM"
             if (palindromo(str)) System.out.println("SIM"); // se for palíndromo, imprime "SIM"
             else System.out.println("NAO"); //se não, imprime "NAO"
-            str = sc.nextLine(); // leitura da próxima string
+            str = MyIO.readLine(); // leitura da próxima string
         }
-        sc.close();
     }
 }
