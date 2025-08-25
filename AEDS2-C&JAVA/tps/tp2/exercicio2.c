@@ -36,11 +36,8 @@ bool inteiros (char str[]) { // método para verificar se a string recebida é u
 bool reais (char str[]) { // método para verificar se a string recebida é um número real
     int i = 0, virgula = 0;
     while (str[i] != '\0') { // loop para verificação até que atinja a condição de parada da string
-        if (str[i] == '.') { // verificação individual para validar a vírgula de um número real
-            virgula++;
-            if (virgula > 1) return false; // se tiver mais de um ponto, retorna false
-        }
-        else if ((str[i] < '0' || str[i] > '9') || (str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z')) return false; // mais uma verificação para validar somente números, retornando falso caso seja símbolo ou letra
+        if (str[i] == '.') virgula++; // verificação individual para validar a vírgula de um número real
+        else if ((str[i] < '0' || str[i] > '9') || (str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z')) return false; // mais uma verificação para validar somente números, retornando falso caso seja símbolo ou letra (com exceção do '.', já verificado anteriormente)
         i++;
     }
     if (virgula == 1) return true; // verificação de presença de somente uma vírgula para um número real, retornando verdadeiro
@@ -48,8 +45,8 @@ bool reais (char str[]) { // método para verificar se a string recebida é um n
 }
 
 int main () { // main do programa
-    char str[500]; scanf(" %[^\n]", str); // declração e leitura da string
-    while (!(str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0')) { // loop para ler string e verificar seus métodos enquanto a string seja diferente de "FIM"
+    char str[500]; scanf(" %[^\n]", str); // declaração e leitura da string
+    while (!(str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0')) { // loop para ler strings e verificar seus métodos enquanto a string seja diferente de "FIM"
         bool x1 = vogais(str);
         bool x2 = consoantes(str);
         bool x3 = inteiros(str);
