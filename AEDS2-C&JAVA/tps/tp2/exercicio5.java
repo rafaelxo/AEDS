@@ -1,13 +1,27 @@
 public class exercicio5 {
-    public static void ordenar (String str) {
-        for (int i = 0; i < str.length(); i++) {
-
+    public static void ordenar (char[] str) {
+        for (int i = 0; i < str.length - 1; i++) {
+            for (int j = 0; j < str.length - i - 1; j++) {
+                if (str[j] > str[j + 1]) {
+                    char temp = str[j];
+                    str[j] = str[j + 1];
+                    str[j + 1] = temp;
+                }
+            }
         }
     }
     public static boolean anagrama (String str1, String str2) {
-        boolean resp = false;
-
-        return resp;
+        if (str1.length() != str2.length()) return false;
+        char[] aux1 = new char[str1.length()]; char[] aux2 = new char[str2.length()];
+        for (int i = 0; i < str1.length(); i++) {
+            aux1[i] = str1.charAt(i);
+            aux2[i] = str2.charAt(i);
+        }
+        ordenar(aux1); ordenar(aux2);
+        for (int i = 0; i < aux1.length; i++) {
+            if (aux1[i] != aux2[i]) return false;
+        }
+        return true;
     }
     public static void main (String[] args) {
         String str1 = MyIO.readLine(); String str2 = MyIO.readLine();// declaração e leitura da string
