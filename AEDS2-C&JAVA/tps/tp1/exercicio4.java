@@ -1,5 +1,4 @@
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class exercicio4 {
     public static Scanner sc = new Scanner (System.in);

@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class exercicio3 {
     public static Scanner sc = new Scanner (System.in);

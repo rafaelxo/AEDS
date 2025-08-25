@@ -51,7 +51,14 @@ int main () { // main do programa
         bool x2 = consoantes(str);
         bool x3 = inteiros(str);
         bool x4 = reais(str); // variáveis booleanas individuais para armazenar cada resposta dos métodos
-        printf("%s %s %s %s\n", x1 ? "SIM" : "NAO", x2 ? "SIM" : "NAO", x3 ? "SIM" : "NAO", x4 ? "SIM" : "NAO"); // saída utilizando operador ternário com base no retorno dos métodos (true = SIM, false = NAO)
+        if (x1) printf("SIM");
+        else printf("NAO");
+        if (x2) printf("SIM");
+        else printf("NAO");
+        if (x3) printf("SIM");
+        else printf("NAO");
+        if (x4) printf("SIM");
+        else printf("NAO");
         scanf(" %[^\n]", str); // leitura da próxima string
     }
     return 0;
