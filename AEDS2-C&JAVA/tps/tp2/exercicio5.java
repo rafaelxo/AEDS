@@ -1,4 +1,9 @@
 public class exercicio5 {
+    public static void ordenar (String str) {
+        for (int i = 0; i < str.length(); i++) {
+
+        }
+    }
     public static boolean anagrama (String str1, String str2) {
         boolean resp = false;
 
