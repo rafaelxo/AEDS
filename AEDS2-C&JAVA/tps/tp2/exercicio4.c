@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <stdio.h>
 
 int somaDigitos (int n) { // método recursivo para somar cada caracter do número inteiro

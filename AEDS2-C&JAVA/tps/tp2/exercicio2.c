@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
 
 bool vogais (char str[]) { // método para verificar se a string recebida é formada apenas por vogais

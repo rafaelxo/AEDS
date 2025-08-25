@@ -4,13 +4,13 @@ public class exercicio4 {
     public static Scanner sc = new Scanner (System.in);
     public static String alteracao (String str) { // método para realizar a alteração de caracteres
         Random rand = new Random(); rand.setSeed(4); // predefine 4 como a seed do gerador para padronizar o resultado
-        char c1 = (char)(rand.nextInt()%26 + 'a'); char c2 = (char)(rand.nextInt()%26 + 'a'); // gera dois caracteres aleatórios entre 'a' e 'z'
-        String nova = ""; // declaração da string que armazenará a nova string com os caracteres alterados
+        char c1 = (char)(rand.nextInt(26) + 'a'); char c2 = (char)(rand.nextInt(26) + 'a'); // gera dois caracteres aleatórios entre 'a' e 'z'
+        char[] nova = new char[str.length()]; // declaração da string como char que armazenará a nova string com os caracteres alterados
         for (int i = 0; i < str.length(); i++) { // loop para percorrer cada caractere da string
-            if (str.charAt(i) == c1) nova += c2; // se o caractere for igual ao primeiro gerado, substitui por c2
-            else nova += str.charAt(i); // se não, mantém o caractere original
+            if (str.charAt(i) == c1) nova[i] = c2; // se o caractere for igual ao primeiro gerado, substitui por c2
+            else nova[i] = str.charAt(i); // se não, mantém o caractere original
         }
-        return nova; // retorno do método com a string alterada
+        return new String(nova); // retorno do método contendo a string como char transformada
     }
     public static void main (String[] args) { // main do programa
         String str = sc.nextLine(); // declaração e leitura da string
