@@ -8,8 +8,8 @@ int length (char str[]) { // método para calcular o tamanho da string
 }
 
 bool palindromoReal (char str[], int i, int j) { // método para verificar se a string é um palíndromo
-    if (i >= j) return true;
-    else if (str[i] != str[j]) return false;
+    if (i >= j) return true; // condição de parada (quando todos os caracteres já forem verificados)
+    else if (str[i] != str[j]) return false; // se a primeira letra for diferente da última, retorna falso
     else return palindromoReal(str, i + 1, j - 1); // chama o método recursivo com os índices incrementados e decrementados
 }
 
