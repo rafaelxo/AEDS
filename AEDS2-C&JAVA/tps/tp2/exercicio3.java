@@ -9,7 +9,7 @@ public class exercicio3 {
     }
     public static void main (String[] args) { // main do programa
         String str = sc.nextLine(); // declaração e leitura da string
-        while (!str.equals("FIM")) { // loop para ler strings e fazer sua inversão
+        while (!(str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M')) { // loop para ler strings e fazer sua inversão
             System.out.println(inversao(str)); // saída da string invertida ao chamar o método
             str = sc.nextLine(); // leitura da próxima string
         }

@@ -6,7 +6,7 @@ public class exercicio3 {
     }
     public static void main (String[] args) { // main do programa
         String str = MyIO.readLine(); // declaração e leitura da string
-        while (!str.equals("FIM")) { // loop para ler strings e verifiar se essa é um palíndromo enquanto a string seja diferente de "FIM"
+        while (!(str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M')) { // loop para ler strings e verifiar se essa é um palíndromo enquanto a string seja diferente de "FIM"
             MyIO.println(ciframento(str)); // imprime o resultado do ciframento ao chamar o método
             str = MyIO.readLine(); // leitura da próxima string
         }
