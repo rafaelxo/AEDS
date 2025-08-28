@@ -1,15 +1,15 @@
 #include <stdio.h>
 
-int somaDigitos (int n) { // método recursivo para somar cada caracter do número inteiro
-    if (n < 10) return n; // condição de parada, retornando o próprio número se for menor que 10
-    else return n % 10 + somaDigitos(n / 10); // soma do resto do número dividido por 10 e chamada recursiva do número dividido por 10
+int somaDigitos (char n[], int i) { // método recursivo para somar cada caracter do número inteiro
+    if (n[i] == '\0') return 0; // condição de parada como '\0' qando a string acabar, retornando 0
+    else return (n[i] - '0') + somaDigitos(n, i + 1); // soma o caracter convertido para inteiro e chama o método recursivo com o índice incrementado
 }
 
 int main () { // main do programa
-    int n; scanf("%d", &n); // declaração e leitura do número
-    while (n != -1) { // loop para ler números enquanto o número seja diferente de -1
-      printf("%d\n", somaDigitos(n)); // saída do resultado da soma dos caracteres
-      scanf("%d", &n); // leitura do próximo número
+    char n[100]; scanf("%s", n); // declaração e leitura do número como string
+    while (!(n[0] == 'F' && n[1] == 'I' && n[2] == 'M' && n[3] == '\0')) { // loop para ler números como string enquanto a string seja diferente de "FIM"
+        printf("%d\n", somaDigitos(n, 0)); // saída do resultado da soma dos caracteres
+        scanf("%s", n); // leitura do próximo número como string
     }
     return 0;
 }
