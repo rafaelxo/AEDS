@@ -1,18 +1,19 @@
 import java.util.*;
 
 public class exercicio1 {
-    public static Scanner sc = new Scanner (System.in);
-    public static String trim (String str, boolean[] vals) { //método para retirar espaços e substituir variáveis pelos seus valores
+    public static Scanner sc = new Scanner(System.in);
+    public static String trim(String str, boolean[] vals) { // método para retirar espaços e substituir variáveis pelos seus valores
         String nova = ""; // string que receberá a nova expressão
         for (int i = 0; i < str.length(); i++) { // loop para percorrer a string original
             if (str.charAt(i) != ' ') { // se o caracter não for espaço
-                if (str.charAt(i) >= 'A' && str.charAt(i) <= 'Z') nova += (vals[str.charAt(i) - 'A'] ? '1' : '0'); // se for variável, substitui pelo valor correspondente
+                if (str.charAt(i) >= 'A' && str.charAt(i) <= 'Z' && str.charAt(i) - 'A' < vals.length) nova += (vals[str.charAt(i) - 'A'] ? '1' : '0'); // se for variável, substitui pelo valor correspondente
                 else nova += str.charAt(i); // se não, mantém o caracter
             }
         }
         return nova; // retorna a string tratada
     }
-    public static String operadores (String str, int i) { // método para extrair o operador da expressão (and, or, not)
+
+    public static String operadores(String str, int i) { // método para extrair o operador da expressão (and, or, not)
         String temp = ""; // string temporária para armazenar o operador
         do {
             i--;
@@ -22,17 +23,19 @@ public class exercicio1 {
         for (int j = temp.length() - 1; j >= 0; j--) oper += temp.charAt(j); // loop para inverter a string temporária e armazenar na string do operador
         return oper; // retorno do operador
     }
-    public static boolean[] parametros (String str, int i) { // método para extrair os parâmetros da expressão (valores booleanos)
+
+    public static boolean[] parametros(String str, int i) { // método para extrair os parâmetros da expressão (valores booleanos)
         String temp = ""; // string temporária para armazenar os parâmetros
         while (i < str.length() - 1 && str.charAt(i + 1) != ')') { // loop para percorrer a string até encontrar o fechamento do parêntese
             i++;
             if (str.charAt(i) == '0' || str.charAt(i) == '1') temp += str.charAt(i); // se o caracter for 0 ou 1, adiciona na string temporária
         }
-        boolean[] valores = new boolean[temp.length()]; // vetor que armmazenará os valores booleanos
-        for (int j = 0; j < temp.length(); j++) valores[j] = temp.charAt(i) == '1'; // loop para converter os caracteres em booleanos e armazenar no vetor
+        boolean[] valores = new boolean[temp.length()]; // vetor que armazenará os valores booleanos
+        for (int j = 0; j < temp.length(); j++) valores[j] = temp.charAt(j) == '1'; // loop para converter os caracteres em booleanos e armazenar no vetor
         return valores; // retorno do vetor de valores booleanos
     }
-    public static String substituicao (String str, int i, String att) { // método para substituir a expressão pelo resultado
+
+    public static String substituicao(String str, int i, String att) { // método para substituir a expressão pelo resultado
         String nova = ""; // string que armazenará a nova expressão
         for (int j = 0; j < i; j++) nova += str.charAt(j); // loop para copiar a parte da string antes do operador
         for (int j = i; j < str.length(); j++) { // loop para percorrer a string a partir do operador
@@ -46,10 +49,13 @@ public class exercicio1 {
         }
         return nova; // retorno da nova expressão
     }
-    public static boolean resultado (String str, boolean[] vals) { // método para calcular o resultado da expressão
-        boolean result = false; // varíavel que armazenará o resultado
+
+    public static boolean resultado(String str, boolean[] vals) { // método para calcular o resultado da expressão
+        boolean result = false; // variável que armazenará o resultado
         switch (str) { // switch para identificar o operador e calcular o resultado
-            case "not": result = !vals[0]; break; // se for not, inverte o valor o único parâmetro
+            case "not": // se for not, inverte o valor o único parâmetro
+                result = !vals[0];
+                break;
             case "or": // se for or, verifica se algum dos parâmetros é true
                 for (int i = 0; i < vals.length; i++) { // loop para percorrer os valores booleanos
                     if (vals[i]) { // se encontrar um valor true, a resposta é verdadeiro
@@ -70,12 +76,21 @@ public class exercicio1 {
         }
         return result; // retorno do resultado
     }
-    public static void main (String[] args) { // main do programa
-        int n = sc.nextInt(); // declaração e leitura da quantidade de bits
+
+    public static void main(String[] args) { // main do programa
+        int n = sc.nextInt(); // leitura da quantidade de bits
+        sc.nextLine(); // consome a quebra de linha após o nextInt
         while (n != 0) { // loop para testar o resultado de cada expressão enquanto n for diferente de 0
             boolean[] vals = new boolean[n]; // declaração do vetor de valores booleanos
-            for (int i = 0; i < n; i++) vals[i] = sc.nextInt() != 0; // leitura dos valores booleanos
-            String str = sc.nextLine(); // leitura da expressão
+            String str = sc.nextLine(); // lê a linha com os valores booleanos
+            int j = 0; // índice para o vetor vals
+            for (int i = 0; i < str.length() && j < n; i++) { // loop para extrair os valores booleanos
+                if (str.charAt(i) >= '0' && str.charAt(i) <= '9') { // se o caractere é um dígito
+                    vals[j] = str.charAt(i) != '0'; // converte para booleano
+                    j++;
+                }
+            }
+            str = sc.nextLine(); // leitura da expressão
             String expr = trim(str, vals); // tratamento da expressão (remoção de espaços e substituição de variáveis pelos seus valores)
             for (int i = expr.length() - 1; i > 0; i--) { // loop para percorrer a expressão de trás para frente
                 if (expr.charAt(i) == '(') { // se encontrar um parêntese de abertura
@@ -87,6 +102,7 @@ public class exercicio1 {
             }
             System.out.println(expr); // saída do resultado final da expressão
             n = sc.nextInt(); // leitura da próxima quantidade de bits
+            sc.nextLine(); // consome a quebra de linha após o nextInt
         }
     }
 }
