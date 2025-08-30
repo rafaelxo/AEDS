@@ -80,7 +80,7 @@ public class exercicio1 {
 
     public static void main(String[] args) { // main do programa
         int n = sc.nextInt(); // declaração e leitura da quantidade de bits
-        while (n > 0) { // loop para testar o resultado de cada expressão enquanto tiver n para ler
+        while (n != 0) { // loop para testar o resultado de cada expressão enquanto n for maior que 0
             boolean[] vals = new boolean[n]; // declaração do vetor de valores booleanos
             for (int i = 0; i < n; i++) vals[i] = sc.nextInt() != 0; // leitura dos valores booleanos
             String str = sc.nextLine(); // lê a linha com os valores booleanos
@@ -90,7 +90,7 @@ public class exercicio1 {
                     String oper = operadores(expr, i); // chama o método para extrair o operador
                     boolean[] param = parametros(expr, i); // chama o método para extrair os parâmetros
                     i -= oper.length(); // ajusta o índice para a posição do operador
-                    expr = substituicao(expr, i, resultado(oper, param) ? "1" : "0"); // chama o método para substituir a expressão pelo resultado
+                    expr = substituicao(expr, i, resultado(oper, param) ? "1" : "0"); // chama o método para substituir a expressão pelo resultado, retornando 1 ou 0
                 }
             }
             System.out.println(expr); // saída do resultado final da expressão
