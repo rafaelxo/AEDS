@@ -2,11 +2,11 @@ import java.util.*;
 
 public class exercicio1 {
     public static Scanner sc = new Scanner(System.in);
-    public static String trim(String str, boolean[] vals) { // método para retirar espaços e substituir variáveis pelos seus valores
+    public static String trim (String str, boolean[] vals) { // método para retirar espaços e substituir variáveis pelos seus valores
         String nova = ""; // string que receberá a nova expressão
         for (int i = 0; i < str.length(); i++) { // loop para percorrer a string original
             if (str.charAt(i) != ' ') { // se o caracter não for espaço
-                if (str.charAt(i) >= 'A' && str.charAt(i) <= 'Z' && str.charAt(i) - 'A' < vals.length) nova += (vals[str.charAt(i) - 'A'] ? '1' : '0'); // se for variável, substitui pelo valor correspondente
+                if (str.charAt(i) > 64 && str.charAt(i) < 91) nova += vals[str.charAt(i) - 65] ? "1" : "0"; // se for variável, substitui pelo valor correspondente
                 else nova += str.charAt(i); // se não, mantém o caracter
             }
         }
@@ -18,7 +18,7 @@ public class exercicio1 {
         do {
             i--;
             temp += str.charAt(i);
-        } while (i > 0 && str.charAt(i - 1) >= 'a' && str.charAt(i - 1) <= 'z'); // loop para percorrer a string até encontrar um caracter que não seja letra minúscula (iniciador do operador)
+        } while (i > 0 && str.charAt(i - 1) > 96 && str.charAt(i - 1) < 123); // loop para percorrer a string até encontrar um caracter que não seja letra minúscula (iniciador do operador)
         String oper = ""; // string que armazenará o operador na ordem correta
         for (int j = temp.length() - 1; j >= 0; j--) oper += temp.charAt(j); // loop para inverter a string temporária e armazenar na string do operador
         return oper; // retorno do operador
@@ -41,9 +41,10 @@ public class exercicio1 {
         for (int j = i; j < str.length(); j++) { // loop para percorrer a string a partir do operador
             if (str.charAt(j) == ')') { // se encontrar o fechamento do parêntese
                 nova += att; // adiciona o resultado da expressão
+                j++; // avança o índice para copiar o fechamento do parêntese
                 while (j < str.length()) { // loop para copiar o restante da string após o fechamento do parêntese
-                    nova += str.charAt(j);
-                    j++;
+                    nova += str.charAt(j); // copia o caracter
+                    j++; // avança o índice
                 }
             }
         }
@@ -78,19 +79,11 @@ public class exercicio1 {
     }
 
     public static void main(String[] args) { // main do programa
-        int n = sc.nextInt(); // leitura da quantidade de bits
-        sc.nextLine(); // consome a quebra de linha após o nextInt
-        while (n != 0) { // loop para testar o resultado de cada expressão enquanto n for diferente de 0
+        int n = sc.nextInt(); // declaração e leitura da quantidade de bits
+        while (n > 0) { // loop para testar o resultado de cada expressão enquanto tiver n para ler
             boolean[] vals = new boolean[n]; // declaração do vetor de valores booleanos
+            for (int i = 0; i < n; i++) vals[i] = sc.nextInt() != 0; // leitura dos valores booleanos
             String str = sc.nextLine(); // lê a linha com os valores booleanos
-            int j = 0; // índice para o vetor vals
-            for (int i = 0; i < str.length() && j < n; i++) { // loop para extrair os valores booleanos
-                if (str.charAt(i) >= '0' && str.charAt(i) <= '9') { // se o caractere é um dígito
-                    vals[j] = str.charAt(i) != '0'; // converte para booleano
-                    j++;
-                }
-            }
-            str = sc.nextLine(); // leitura da expressão
             String expr = trim(str, vals); // tratamento da expressão (remoção de espaços e substituição de variáveis pelos seus valores)
             for (int i = expr.length() - 1; i > 0; i--) { // loop para percorrer a expressão de trás para frente
                 if (expr.charAt(i) == '(') { // se encontrar um parêntese de abertura
@@ -102,7 +95,6 @@ public class exercicio1 {
             }
             System.out.println(expr); // saída do resultado final da expressão
             n = sc.nextInt(); // leitura da próxima quantidade de bits
-            sc.nextLine(); // consome a quebra de linha após o nextInt
         }
     }
 }
