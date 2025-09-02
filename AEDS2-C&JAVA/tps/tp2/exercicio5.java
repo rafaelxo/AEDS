@@ -34,15 +34,15 @@ public class exercicio5 {
     }
     public static String[] separar (String str) {
         String str1 = ""; String str2 = ""; // declaração de duas novas strings para armazenar as duas metades da string original
-        boolean separadas = false; // variável para indicar se as strings foram separadas
+        boolean separou = false; // variável para indicar se as strings foram separadas
         int i = 0;
         while (i < str.length()) { // loop para percorrer todos os caracteres da string
-            if (!separadas && i + 2 < str.length() && str.charAt(i) == ' ' && str.charAt(i + 1) == '-' && str.charAt(i + 2) == ' ') { // se ainda não foram separadas e encontrar o separador " - ", muda a variável para true e pula os próximos 3 caracteres
-                separadas = true;
+            if (!separou && i + 2 < str.length() && str.charAt(i) == ' ' && str.charAt(i + 1) == '-' && str.charAt(i + 2) == ' ') { // se ainda não foram separadas e encontrar o separador "-"
+                separou = true;
                 i += 3;
             } else { // se não, concatena o caractere à string correspondente
-                if (!separadas) str1 += str.charAt(i);
-                else str2 += str.charAt(i);
+                if (!separou) str1 += str.charAt(i); // se ainda não foram separadas, concatena o caractere à primeira string
+                else str2 += str.charAt(i); // se já foram separadas, concatena o caractere à segunda string
                 i++;
             }
         }
