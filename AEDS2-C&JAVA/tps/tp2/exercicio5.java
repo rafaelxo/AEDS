@@ -38,12 +38,12 @@ public class exercicio5 {
         int i = 0;
         while (i < str.length()) { // loop para percorrer todos os caracteres da string
             if (!separou && i + 2 < str.length() && str.charAt(i) == ' ' && str.charAt(i + 1) == '-' && str.charAt(i + 2) == ' ') { // se ainda não foram separadas e encontrar o separador "-"
-                separou = true;
-                i += 3;
+                separou = true; // indica que as strings foram separadas
+                i += 3; // pula o separador
             } else { // se não, concatena o caractere à string correspondente
                 if (!separou) str1 += str.charAt(i); // se ainda não foram separadas, concatena o caractere à primeira string
                 else str2 += str.charAt(i); // se já foram separadas, concatena o caractere à segunda string
-                i++;
+                i++; // incrementa o índice
             }
         }
         String[] resp = new String[2]; // declaração de um array para armazenar as duas strings
