@@ -4,6 +4,7 @@ public class exercicio3 {
         for (int i = 0; i < str.length(); i++) cod += (char)(str.charAt(i) + 3); // loop para percorrer cada caractere da string, realizando o ciframento ao somar 3 ao respectivo valor ASCII e concatenando ao resultado
         return cod; // retorno do método com a string cifrada
     }
+    
     public static void main (String[] args) { // main do programa
         String str = MyIO.readLine(); // declaração e leitura da string
         while (!(str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M')) { // loop para ler strings e verifiar se essa é um palíndromo enquanto a string seja diferente de "FIM"

@@ -1,7 +1,8 @@
 import java.util.*;
 
 public class exercicio1 {
-    public static Scanner sc = new Scanner(System.in);
+    public static Scanner sc = new Scanner (System.in);
+    
     public static String trim (String str, boolean[] vals) { // método para retirar espaços e substituir variáveis pelos seus valores
         String nova = ""; // string que receberá a nova expressão
         for (int i = 0; i < str.length(); i++) { // loop para percorrer a string original
@@ -13,7 +14,7 @@ public class exercicio1 {
         return nova; // retorna a string tratada
     }
 
-    public static String operadores(String str, int i) { // método para extrair o operador da expressão (and, or, not)
+    public static String operadores (String str, int i) { // método para extrair o operador da expressão (and, or, not)
         String temp = ""; // string temporária para armazenar o operador
         do {
             i--;
@@ -24,7 +25,7 @@ public class exercicio1 {
         return oper; // retorno do operador
     }
 
-    public static boolean[] parametros(String str, int i) { // método para extrair os parâmetros da expressão (valores booleanos)
+    public static boolean[] parametros (String str, int i) { // método para extrair os parâmetros da expressão (valores booleanos)
         String temp = ""; // string temporária para armazenar os parâmetros
         while (i < str.length() - 1 && str.charAt(i + 1) != ')') { // loop para percorrer a string até encontrar o fechamento do parêntese
             i++;
@@ -35,7 +36,7 @@ public class exercicio1 {
         return valores; // retorno do vetor de valores booleanos
     }
 
-    public static String substituicao(String str, int i, String att) { // método para substituir a expressão pelo resultado
+    public static String substituicao (String str, int i, String att) { // método para substituir a expressão pelo resultado
         String nova = ""; // string que armazenará a nova expressão
         for (int j = 0; j < i; j++) nova += str.charAt(j); // loop para copiar a parte da string antes do operador
         for (int j = i; j < str.length(); j++) { // loop para percorrer a string a partir do operador
@@ -51,7 +52,7 @@ public class exercicio1 {
         return nova; // retorno da nova expressão
     }
 
-    public static boolean resultado(String str, boolean[] vals) { // método para calcular o resultado da expressão
+    public static boolean resultado (String str, boolean[] vals) { // método para calcular o resultado da expressão
         boolean result = false; // variável que armazenará o resultado
         switch (str) { // switch para identificar o operador e calcular o resultado
             case "not": // se for not, inverte o valor o único parâmetro
@@ -78,7 +79,7 @@ public class exercicio1 {
         return result; // retorno do resultado
     }
 
-    public static void main(String[] args) { // main do programa
+    public static void main (String[] args) { // main do programa
         int n = sc.nextInt(); // declaração e leitura da quantidade de bits
         while (n != 0) { // loop para testar o resultado de cada expressão enquanto n for maior que 0
             boolean[] vals = new boolean[n]; // declaração do vetor de valores booleanos

@@ -6,6 +6,7 @@ public class exercicio5 {
         }
         return nova; // retorna a nova string sem espaços e o separador "-"
     }
+    
     public static String minusculo (String str) { // método para converter todos os caracteres de uma string para minúsculo
         String nova = ""; // declaração de uma nova string para armazenar a string em minúsculo
         for (int i = 0; i < str.length(); i++) { // loop para percorrer todos os caracteres da string
@@ -14,6 +15,7 @@ public class exercicio5 {
         }
         return nova; // retorna a nova string em minúsculo
     }
+
     public static String swap (String str, int i, int j) { // método para trocar dois caracteres de posição em um array
         String nova = ""; // declaração de uma nova string para armazenar a string com os caracteres trocados
         for (int k = 0; k < str.length(); k++) { // loop para percorrer todos os caracteres da string
@@ -23,6 +25,7 @@ public class exercicio5 {
         }
         return nova; // retorna a nova string com os caracteres trocados
     }
+
     public static String ordenar (String str) { // método para ordenar a string em ordem alfabética para assim facilitar a comparação
         String nova = str; // declaração de uma nova string para armazenar a string ordenada
         for (int i = 0; i < nova.length() - 1; i++) { // loop até o penúltimo caractere
@@ -32,6 +35,7 @@ public class exercicio5 {
         }
         return nova; // retorna a string ordenada
     }
+
     public static String[] separar (String str) {
         String str1 = ""; String str2 = ""; // declaração de duas novas strings para armazenar as duas metades da string original
         boolean separou = false; // variável para indicar se as strings foram separadas
@@ -50,6 +54,7 @@ public class exercicio5 {
         resp[0] = str1; resp[1] = str2; // atribuição das strings ao array
         return resp; // retorna o array com as duas strings
     }
+
     public static boolean anagrama (String str1, String str2) { // método para verificar se é anagrama
         if (str1.length() != str2.length()) return false; // se o tamanho das strings forem diferentes, já retorna falso
         str1 = ordenar(str1); str2 = ordenar(str2); // chama o método para ordenar as strings
@@ -58,6 +63,7 @@ public class exercicio5 {
         }
         return true; // se todos os caracteres forem iguais, retorna verdadeiro
     }
+
     public static void main (String[] args) { // main do programa
         String str = MyIO.readLine(); // declaração e leitura da string
         while (!(str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M')) { // loop para ler duas strings e verifiar se essas são anagramas enquanto a string seja diferente de "FIM"

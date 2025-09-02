@@ -2,6 +2,7 @@ import java.util.*;
 
 public class exercicio4 {
     private static Random rand = new Random(4);
+
     public String alteracao (String str) { // método para realizar a alteração de caracteres
         char c1 = (char)('a' + (Math.abs(rand.nextInt()) % 26)); char c2 = (char)('a' + (Math.abs(rand.nextInt()) % 26)); // gera dois caracteres aleatórios entre 'a' e 'z'
         String nova = ""; // declaração da string como char que armazenará a nova string com os caracteres alterados
@@ -11,6 +12,7 @@ public class exercicio4 {
         }
         return nova; // retorno do método contendo a string
     }
+
     public static void main (String[] args) { // main do programa
         String str = MyIO.readLine(); // declaração e leitura da string
         while (!str.equals("FIM")) { // loop para ler strings e realizar a alteração enquanto a string seja diferente de "FIM"
