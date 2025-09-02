@@ -36,19 +36,19 @@ public class exercicio5 {
         String str1 = ""; String str2 = ""; // declaração de duas novas strings para armazenar as duas metades da string original
         boolean separadas = false; // variável para indicar se as strings foram separadas
         int i = 0;
-        while (i < str.length()) {
-            if (!separadas && i + 2 < str.length() && str.charAt(i) == ' ' && str.charAt(i + 1) == '-' && str.charAt(i + 2) == ' ') {
+        while (i < str.length()) { // loop para percorrer todos os caracteres da string
+            if (!separadas && i + 2 < str.length() && str.charAt(i) == ' ' && str.charAt(i + 1) == '-' && str.charAt(i + 2) == ' ') { // se ainda não foram separadas e encontrar o separador " - ", muda a variável para true e pula os próximos 3 caracteres
                 separadas = true;
                 i += 3;
-            } else {
+            } else { // se não, concatena o caractere à string correspondente
                 if (!separadas) str1 += str.charAt(i);
                 else str2 += str.charAt(i);
                 i++;
             }
         }
-        String[] resp = new String[2];
-        resp[0] = str1; resp[1] = str2;
-        return resp;
+        String[] resp = new String[2]; // declaração de um array para armazenar as duas strings
+        resp[0] = str1; resp[1] = str2; // atribuição das strings ao array
+        return resp; // retorna o array com as duas strings
     }
     public static boolean anagrama (String str1, String str2) { // método para verificar se é anagrama
         if (str1.length() != str2.length()) return false; // se o tamanho das strings forem diferentes, já retorna falso
@@ -61,9 +61,9 @@ public class exercicio5 {
     public static void main (String[] args) { // main do programa
         String str = MyIO.readLine(); // declaração e leitura da string
         while (!(str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M')) { // loop para ler duas strings e verifiar se essas são anagramas enquanto a string seja diferente de "FIM"
-            String[] strs = separar(str); // chama o método para separar as duas strings
-            String str1 = trim(minusculo(strs[0])); String str2 = trim(minusculo(strs[1])); // chama os métodos para remover os separadores e espaços e converter para minúsculo
-            if (anagrama(str1, str2)) MyIO.println("SIM"); // chamada do método e validação de se forem anagramas, imprime "SIM"
+            String[] strs = separar(str); // declara uma array de strings e chama o método para separar em duas
+            String str1 = trim(minusculo(strs[0])); String str2 = trim(minusculo(strs[1])); // chama os métodos para remover os separadores e espaços de cada string e convertê-las para minúsculo
+            if (anagrama(str1, str2)) MyIO.println("SIM"); // chamada do método e validação e se forem anagramas, imprime "SIM"
             else MyIO.println("NÃO"); // se não, imprime "NAO"
             str = MyIO.readLine(); // leitura da próxima string
         }
