@@ -33,14 +33,16 @@ bool inteiros (char str[]) { // método para verificar se a string recebida é u
 }
 
 bool reais (char str[]) { // método para verificar se a string recebida é um número real
-    int i = 0, virgula = 0;
+    int i = 0, virgula = 0; // declaração de variável para contar a quantidade de vírgulas na string
     while (str[i] != '\0') { // loop para verificação até que atinja a condição de parada da string
-        if (str[i] == '.' || str[i] == ',') virgula++; // verificação individual para validar a vírgula de um número real
-        else if ((str[i] < '0' || str[i] > '9') || (str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z')) return false; // mais uma verificação para validar somente números, retornando falso caso seja símbolo ou letra (com exceção do '.' e ',', já verificados anteriormente)
+        if (str[i] == '.' || str[i] == ',') { // verificação individual para validar a vírgula de um número real
+            virgula++;
+            if (virgula > 1) return false; // se houver mais de uma vírgula, já retorna falso
+        }
+        else if (str[i] < '0' || str[i] > '9') return false; // mais uma verificação para validar somente números, retornando falso caso seja símbolo ou letra (com exceção do '.' e ',', já verificados anteriormente)
         i++;
     }
-    if (virgula == 1) return true; // verificação de presença de somente uma vírgula para um número real, retornando verdadeiro
-    return false; // se não, retorno falso como padrão
+    return true; // retorno true caso não caia em nenhuma das condições de retorno false
 }
 
 int main () { // main do programa
