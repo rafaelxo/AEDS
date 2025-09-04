@@ -5,6 +5,7 @@ bool vogais (char str[]) { // método para verificar se a string recebida é for
     int i = 0;
     while (str[i] != '\0') { // loop para verificação até que atinja a condição de parada da string
         char c = str[i]; // atribuição de cada caracter para realizar a comparação a cada posição da string
+        if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')) return false; // verificação individual para validar somente letras, retornando falso caso seja símbolo ou número
         if (c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u' && c != 'A' && c != 'E' && c != 'I' && c != 'O' && c != 'U') return false; // mais uma verificação para validar se o caracter é diferente de uma vogal, retornando false
         i++;
     }
