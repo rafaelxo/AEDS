@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+bool isFim(char str[]) { // metódo para verificar se uma string é igual a "FIM"
+    return (str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0'); // retorna true ou false ao realizar a comparação
+}
+
 bool vogais (char str[]) { // método para verificar se a string recebida é formada apenas por vogais
     int i = 0;
     while (str[i] != '\0') { // loop para verificação até que atinja a condição de parada da string

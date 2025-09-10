@@ -5,7 +5,7 @@ public class exercicio2 {
 
     public static String inversao (String str, int i) { // método para realizar a inversao de uma string
         if (i < 0) return ""; // condição de parada da recursão, quando já se verificou todos os caracteres
-        else return "" + str.charAt(i) + inversao(str, i - 1); // chamada recursiva para o próximo caractere
+        else return "" + str.charAt(i) + inversao(str, i - 1); // printa o caractere da última posição e faz a chamada recursiva para o próximo caractere
     }
 
     public static void main (String[] args) { // main do programa
