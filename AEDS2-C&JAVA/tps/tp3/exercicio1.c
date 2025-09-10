@@ -9,7 +9,7 @@ bool vogaisRec (char str[], int i) { // método para verificar se a string receb
     if (str[i] == '\0') return true; // condição de parada da recursão, quando atingiu o fim da string
     char c = str[i]; // atribuição do caractere atual da string a um char para facilitar as comparações
     if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')) return false; // verificação individual para validar somente letras, retornando falso caso seja símbolo ou número
-    if (c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u' && c != 'A' && c != 'E' && c != 'I' && c != 'O' && c != 'U') return false; // mais uma verificação para validar se o caractere é diferente de uma vogal, retornando false
+    if (c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u' && c != 'A' && c != 'E' && c != 'I' && c != 'O' && c != 'U') return false; // mais uma verificação para validar se o caractere é diferente de uma vogal, retornando falso
     else return vogaisRec(str, i + 1); // se não cair em nenhuma condicional, chama a recursão passando a string e o próximo caractere
 }
 
@@ -21,7 +21,7 @@ bool consoantesRec (char str[], int i) { // método para verificar se a string r
     if (str[i] == '\0') return true; // condição de parada da recursão, quando atingiu o fim da string
     char c = str[i]; // atribuição do caractere atual da string a um char para facilitar as comparações
     if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')) return false; // verificação individual para validar somente letras, retornando falso caso seja símbolo ou número
-    if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') return false; // mais uma verificação para validar se o caractere é uma vogal, retornando false
+    if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') return false; // mais uma verificação para validar se o caractere é uma vogal, retornando falso
     else return consoantesRec(str, i + 1); // se não cair em nenhuma condicional, chama a recursão passando a string e o próximo caractere
 }
 
@@ -32,8 +32,8 @@ bool consoantesRecBase (char str[]) { // método para fazer a primeira chamada �
 bool inteirosRec (char str[], int i) { // método para verificar se a string recebida é um número inteiro
     if (str[0] == '\0') return false; // condição para verificar se a string está vazia
     if (str[i] == '\0') return true; // condição de parada da recursão, quando atingiu o fim da string
-    if (str[i] < '0' || str[i] > '9') return false; // verificação individual de cada caractere, comparando-o com numeros inteiros e retornando false caso a condição for verdadeira
-    else return inteirosRec(str, i + 1); // se não cair no retorno da estrutura condicional, retorna true
+    if (str[i] < '0' || str[i] > '9') return false; // verificação individual de cada caractere, retornando falso se o caractere for diferente de um número
+    else return inteirosRec(str, i + 1); // se não cair em nenhuma condiciona, chama a recursão passando a string e o próximo caractere
 }
 
 bool inteirosRecBase(char str[]) { // método para fazer a primeira chamada à recursão
@@ -42,7 +42,7 @@ bool inteirosRecBase(char str[]) { // método para fazer a primeira chamada à r
 
 bool reaisRec (char str[], int i, int virgula) { // método para verificar se a string recebida é um número real
     if (str[0] == '\0') return false; // condição de parada que verifica se a string está vazia
-    if (str[i] == '\0') return (i > 0 && str[i - 1] != '.' && str[i - 1] != ','); // condição de parada para verificar se a string chegou ao fim e só aceita se não terminou em separador e se houve ao menos um dígito
+    if (str[i] == '\0') return (i > 0); // condição de parada para verificar se a string chegou ao fim e se tem mais de um caractere, retornando verdadeiro
     char c = str[i]; // atribuição do caractere atual da string a um char para facilitar as comparações
     if (c == '.' || c == ',') { // condição para verificar se o caractere é um ponto ou uma vírgula
         if (virgula >= 1) return false; // se a quantidade de vírgula for maior ou igual a 1, retorna falso
