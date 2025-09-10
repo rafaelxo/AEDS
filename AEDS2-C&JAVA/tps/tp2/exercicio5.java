@@ -1,4 +1,8 @@
 public class exercicio5 {
+    public static boolean isFim(String str) { // método auxiliar para verificar se a string é igual a "FIM"
+        return (str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M'); // retorna true ou false ao realizar a comparação
+    }
+
     public static String trim (String str) { // método para remover o separador "-" e espaços em branco de uma string
         String nova = ""; // declaração de uma nova string para armazenar a nova string
         for (int i = 0; i < str.length(); i++) { // loop para percorrer todos os caracteres da string
@@ -6,7 +10,7 @@ public class exercicio5 {
         }
         return nova; // retorna a nova string sem espaços e o separador "-"
     }
-    
+
     public static String minusculo (String str) { // método para converter todos os caracteres de uma string para minúsculo
         String nova = ""; // declaração de uma nova string para armazenar a string em minúsculo
         for (int i = 0; i < str.length(); i++) { // loop para percorrer todos os caracteres da string
@@ -66,7 +70,7 @@ public class exercicio5 {
 
     public static void main (String[] args) { // main do programa
         String str = MyIO.readLine(); // declaração e leitura da string
-        while (!(str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M')) { // loop para ler duas strings e verifiar se essas são anagramas enquanto a string seja diferente de "FIM"
+        while (!isFim(str)) { // loop para ler duas strings e verifiar se essas são anagramas enquanto a string seja diferente de "FIM"
             String[] strs = separar(str); // declara uma array de strings e chama o método para separar em duas
             String str1 = trim(minusculo(strs[0])); String str2 = trim(minusculo(strs[1])); // chama os métodos para remover os separadores e espaços de cada string e convertê-las para minúsculo
             if (anagrama(str1, str2)) MyIO.println("SIM"); // chamada do método e validação e se forem anagramas, imprime "SIM"
