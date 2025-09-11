@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+bool isFim (char str[]) { // método auxiliar para verificar se a string é igual a "FIM"
+    return (str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0'); // retorna true ou false ao realizar a comparação
+}
+
 int length (char str[]) { // método para calcular o tamanho da string
     int i = 0; // contador para o tamanho da string
     while (str[i] != '\0') i++; // incrementa o contador até encontrar o fim da string
@@ -19,7 +23,7 @@ int palindromoBase (char str[]) { // método base para o recursivo
 
 int main () { // main do programa
     char str[500]; scanf(" %[^\n]", str); //declaração e leitura da string
-    while (!(str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0')) { // loop para ler string e verificar se essa é um palíndromo enquanto a string seja diferente de "FIM"
+    while (!isFim(str)) { // loop para ler string e verificar se essa é um palíndromo enquanto a string seja diferente de "FIM"
         if (palindromoBase(str)) printf("SIM\n"); // se for palíndromo, imprime "SIM"
         else printf("NAO\n"); // se não, imprime "NAO"
         scanf(" %[^\n]", str); // leitura da próxima string
