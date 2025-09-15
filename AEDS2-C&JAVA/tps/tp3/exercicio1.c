@@ -30,7 +30,6 @@ bool consoantesRecBase (char str[]) { // método para fazer a primeira chamada �
 }
 
 bool inteirosRec (char str[], int i) { // método para verificar se a string recebida é um número inteiro
-    if (str[0] == '\0') return false; // condição para verificar se a string está vazia
     if (str[i] == '\0') return true; // condição de parada da recursão, quando atingiu o fim da string
     if (str[i] < '0' || str[i] > '9') return false; // verificação individual de cada caractere, retornando falso se o caractere for diferente de um número
     else return inteirosRec(str, i + 1); // se não cair em nenhuma condiciona, chama a recursão passando a string e o próximo caractere
@@ -41,14 +40,12 @@ bool inteirosRecBase(char str[]) { // método para fazer a primeira chamada à r
 }
 
 bool reaisRec (char str[], int i, int virgula) { // método para verificar se a string recebida é um número real
-    if (str[0] == '\0') return false; // condição de parada que verifica se a string está vazia
-    if (str[i] == '\0') return (i > 0); // condição de parada para verificar se a string chegou ao fim e se tem mais de um caractere, retornando verdadeiro
-    char c = str[i]; // atribuição do caractere atual da string a um char para facilitar as comparações
-    if (c == '.' || c == ',') { // condição para verificar se o caractere é um ponto ou uma vírgula
+    if (str[i] == '\0') return true; // condição de parada da recursão, quando atingiu o fim da string
+    if (str[i] == '.' || str[i] == ',') { // condição para verificar se o caractere é um ponto ou uma vírgula
         if (virgula >= 1) return false; // se a quantidade de vírgula for maior ou igual a 1, retorna falso
         return reaisRec(str, i + 1, virgula + 1); // se não, chama a recursão para o próximo caractere e passando a quantidade de vírgulas
     }
-    if (c < '0' || c > '9') return false; // mais uma verificação para validar somente números, retornando falso caso seja símbolo ou letra (com exceção do '.' e ',', já verificados anteriormente)
+    if (str[i] < '0' || str[i] > '9') return false; // mais uma verificação para validar somente números, retornando falso caso seja símbolo ou letra (com exceção do '.' e ',', já verificados anteriormente)
     return reaisRec(str, i + 1, virgula); // se não cair nos testes do método, chama novamente a recursão passando o próximo caractere
 }
 
@@ -62,7 +59,7 @@ int main() { // main do programa
         printf("%s ", vogaisRecBase(str) ? "SIM" : "NAO");
         printf("%s ", consoantesRecBase(str) ? "SIM" : "NAO");
         printf("%s ", inteirosRecBase(str) ? "SIM" : "NAO");
-        printf("%s\n", reaisRecBase(str) ? "SIM" : "NAO");
+        printf("%s\n", reaisRecBase(str) ? "SIM" : "NAO"); // saídas utilizando operador ternário, SIM para retorno verdadeiro da função, e NAO para falso
         scanf(" %[^\n]", str); // leitura da próxima string
     }
     return 0;
