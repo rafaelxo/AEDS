@@ -51,7 +51,7 @@ bool reais (char str[]) { // método para verificar se a string recebida é um n
 
 int main () { // main do programa
     char str[500]; scanf(" %[^\n]", str); // declaração e leitura da string
-    while (!(str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0')) { // loop para ler strings e verificar seus métodos enquanto a string seja diferente de "FIM"
+    while (!isFim(str)) { // loop para ler strings e verificar seus métodos enquanto a string seja diferente de "FIM"
         printf("%s ", vogais(str) ? "SIM" : "NAO");
         printf("%s ", consoantes(str) ? "SIM" : "NAO");
         printf("%s ", inteiros(str) ? "SIM" : "NAO");

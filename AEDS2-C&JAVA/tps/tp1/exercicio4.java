@@ -3,9 +3,10 @@ import java.util.*;
 public class exercicio4 {
     private static Random rand = new Random(4);
 
-    public static boolean isFim(String str) { // método auxiliar para verificar se a string é igual a "FIM"
+    public static boolean isFim (String str) { // método auxiliar para verificar se a string é igual a "FIM"
         return (str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M'); // retorna true ou false ao realizar a comparação
     }
+
     public String alteracao (String str) { // método para realizar a alteração de caracteres
         char c1 = (char)('a' + (Math.abs(rand.nextInt()) % 26)); char c2 = (char)('a' + (Math.abs(rand.nextInt()) % 26)); // gera dois caracteres aleatórios entre 'a' e 'z'
         String nova = ""; // declaração da string como char que armazenará a nova string com os caracteres alterados

@@ -3,7 +3,7 @@ import java.util.*;
 public class exercicio1 {
     public static Scanner sc = new Scanner (System.in);
 
-    public static boolean isFim(String str) { // método auxiliar para verificar se a string é igual a "FIM"
+    public static boolean isFim (String str) { // método auxiliar para verificar se a string é igual a "FIM"
         return (str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M'); // retorna true ou false ao realizar a comparação
     }
 

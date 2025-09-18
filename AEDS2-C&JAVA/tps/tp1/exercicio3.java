@@ -1,7 +1,8 @@
 public class exercicio3 {
-    public static boolean isFim(String str) { // método auxiliar para verificar se a string é igual a "FIM"
+    public static boolean isFim (String str) { // método auxiliar para verificar se a string é igual a "FIM"
         return (str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M'); // retorna true ou false ao realizar a comparação
     }
+
     public static String ciframento (String str) { // método para o Ciframento de César
         String cod = ""; // declaração da string que armazenará o ciframento
         for (int i = 0; i < str.length(); i++) cod += (char)(str.charAt(i) + 3); // loop para percorrer cada caractere da string, realizando o ciframento ao somar 3 ao respectivo valor ASCII e concatenando ao resultado
