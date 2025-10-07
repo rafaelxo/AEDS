@@ -15,7 +15,7 @@ int main() {
         printf("\nObteve conceito C\n");
     } else if (media >= 5 && media < 6) {
         printf("\nObteve conceito D\n");
-    } else if (media >= 0 && media <5 || media < 0) {
+    } else if (media >= 0 && media < 5 || media < 0) {
         printf("\nObteve conceito E\n");
     }
 
