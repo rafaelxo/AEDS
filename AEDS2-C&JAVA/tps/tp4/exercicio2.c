@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-int length (char *s) { // método para obter o tamanho da string
-    if (!s) return 0; // se a string for nula, retorna 0
+int length (char *str) { // método para obter o tamanho da string
+    if (!str) return 0; // se a string for nula, retorna 0
 
     int i = 0; // inicializa o índice
-    while (s[i] != '\0') i++; // percorre a string até o caractere nulo
+    while (str[i] != '\0') i++; // percorre a string até o caractere nulo
 
     return i; // retorna o tamanho da string
 }
@@ -147,25 +147,25 @@ float real (char *str) { // método para converter string em float
     return achou ? (negat ? -num : num) : 0.0f; // retorna o número final, considerando o sinal
 }
 
-int separaCampos (char *str, char campos[][1000], int maxCampos) { // método para separar os campos de uma linha CSV
+int separaCampos (char *str, char campos[][1000]) { // método para separar os campos de uma linha CSV
     int n = 0, x = 0; // n é o contador de campos, x é o índice dentro do campo atual
     bool aspas = false; // flag para indicar se estamos dentro de aspas
     for (int i = 0; str[i] != '\0'; i++) { // percorrer cada caractere da string
         char c = str[i];
         if (c == '\"') aspas = !aspas; // alternar a flag de aspas ao encontrar uma aspa
         else if (c == ',' && !aspas) { // se encontrar uma vírgula fora de aspas, é o fim de um campo
-            if (n < maxCampos) { // se não exceder o máximo de campos
+            if (n < 15) { // se não exceder o máximo de campos
                 campos[n][x] = '\0'; // finalizar a string do campo atual
                 limparAspas(campos[n]); // remover aspas do campo
                 n++; x = 0;
             }
         }
         else { // caso contrário, adicionar o caractere ao campo atual
-            if (n < maxCampos && x < 999) campos[n][x++] = c; // garantir que não exceda o tamanho do campo
+            if (n < 15 && x < 999) campos[n][x++] = c; // garantir que não exceda o tamanho do campo
         }
     }
 
-    if (n < maxCampos) { // adicionar o último campo se houver caracteres
+    if (n < 15) { // adicionar o último campo se houver caracteres
         campos[n][x] = '\0'; // finalizar a string do campo atual
         limparAspas(campos[n]); // remover aspas do campo
         n++; x = 0;
@@ -174,14 +174,14 @@ int separaCampos (char *str, char campos[][1000], int maxCampos) { // método pa
     return n; // retornar o número de campos separados
 }
 
-int separaArray (char *str, char dest[][50], int max) { // método para separar os elementos de um array representado como string
+int separaArray (char *str, char dest[][50]) { // método para separar os elementos de um array representado como string
     int n = 0, x = 0; // n é o contador de elementos, x é o índice dentro do elemento atual
     bool aspas = false; // flag para indicar se estamos dentro de aspas
     for (int i = 0; str[i] != '\0'; i++) { // percorrer cada caractere da string
         char c = str[i];
         if (c == '\"') aspas = !aspas; // alternar a flag de aspas ao encontrar uma aspa
         else if (c == ',' && !aspas) { // se encontrar uma vírgula fora de aspas, é o fim de um elemento
-            if (x > 0 && n < max) { // se houver caracteres no elemento atual e não exceder o máximo
+            if (x > 0 && n < 50) { // se houver caracteres no elemento atual e não exceder o máximo
                 dest[n][x] = '\0'; // finalizar a string do elemento atual
                 trim(dest[n]); // remover espaços em branco do início e fim
                 limparAspas(dest[n]); // remover aspas do elemento
@@ -191,11 +191,11 @@ int separaArray (char *str, char dest[][50], int max) { // método para separar 
         }
         else if (c == '[' || c == ']') { // ignorar colchetes
         } else { // caso contrário, adicionar o caractere ao elemento atual
-            if (n < max && x < 49) dest[n][x++] = c; // garantir que não exceda o tamanho do array
+            if (n < 50 && x < 49) dest[n][x++] = c; // garantir que não exceda o tamanho do array
         }
     }
 
-    if (x > 0 && n < max) { // adicionar o último elemento se houver caracteres
+    if (x > 0 && n < 50) { // adicionar o último elemento se houver caracteres
         dest[n][x] = '\0'; // finalizar a string do elemento atual
         trim(dest[n]); // remover espaços em branco do início e fim
         limparAspas(dest[n]); // remover aspas do elemento
@@ -237,28 +237,23 @@ void formatarData (char *src, char dest[]) { // método para formatar a data con
         return;
     }
 
+    char meses[12][4] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; // array com os meses abreviados
+    char mesesNum[12][3] = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}; // array com os meses em formato numérico
+
     char mes[4] = {0}; // array para armazenar o mês
     int i = 0; // índice para percorrer a string de origem
     for (i = 0; i < 3 && i < length(src); i++) mes[i] = src[i]; // copia os três primeiros caracteres (mês)
     mes[3] = '\0'; // finaliza a string do mês
-
     char mesNum[3] = "01"; // array para armazenar o número do mês
-    if (comparar(mes, "Jan")) copiar(mesNum, "01");
-    else if (comparar(mes, "Feb")) copiar(mesNum, "02");
-    else if (comparar(mes, "Mar")) copiar(mesNum, "03");
-    else if (comparar(mes, "Apr")) copiar(mesNum, "04");
-    else if (comparar(mes, "May")) copiar(mesNum, "05");
-    else if (comparar(mes, "Jun")) copiar(mesNum, "06");
-    else if (comparar(mes, "Jul")) copiar(mesNum, "07");
-    else if (comparar(mes, "Aug")) copiar(mesNum, "08");
-    else if (comparar(mes, "Sep")) copiar(mesNum, "09");
-    else if (comparar(mes, "Oct")) copiar(mesNum, "10");
-    else if (comparar(mes, "Nov")) copiar(mesNum, "11");
-    else if (comparar(mes, "Dec")) copiar(mesNum, "12"); // comparação do mês e atribuição do número correspondente
-
-    while (i < length(src) && src[i] == ' ') i++; // pula espaços em branco
+    for (int j = 0; j < 12; j++) { // loop para encontrar o número do mês correspondente
+        if (comparar(mes, meses[j])) { // se encontrar o mês
+            copiar(mesNum, mesesNum[j]); // atribui o número do mês correspondente
+            j = 12; // sai do loop após encontrar o mês
+        }
+    }
 
     char dia[3] = {0}; // array para armazenar o dia
+    i = 4; // índice para percorrer a string
     int pos = 0; // índice para o dia
     while (i < length(src) && src[i] >= '0' && src[i] <= '9' && pos < 2) { // enquanto encontrar dígitos
         dia[pos++] = src[i]; // copia o dígito para o dia
@@ -279,9 +274,8 @@ void formatarData (char *src, char dest[]) { // método para formatar a data con
     }
     else copiar(diaNum, dia); // caso contrário, copia o dia normalmente
 
-    while (i < length(src) && (src[i] == ' ' || src[i] == ',')) i++; // pula espaços em branco e vírgulas
-
     char ano[5] = {0}; // array para armazenar o ano
+    i += 2; // pula o espaço após o dia
     pos = 0; // índice para o ano
     while (i < length(src) && src[i] >= '0' && src[i] <= '9' && pos < 4) { // enquanto encontrar dígitos
         ano[pos++] = src[i]; // copia o dígito para o ano
@@ -307,8 +301,8 @@ void formatarPreco (float preco) { // método para formatar o preço conforme o 
 
 void processarLinha (char *linha, Game *game) { // método para processar a linha lida do arquivo
     inicializar(game); // inicializar os campos do jogo
-    char campos[20][1000]; // array para armazenar os campos separados
-    int ncampos = separaCampos(linha, campos, 20); // separar os campos da linha
+    char campos[15][1000]; // array para armazenar os campos separados
+    int ncampos = separaCampos(linha, campos); // separar os campos da linha
 
     if (ncampos > 0) game->id = inteiro(campos[0]); // converter o primeiro campo para inteiro e armazenar no id
 
@@ -344,7 +338,7 @@ void processarLinha (char *linha, Game *game) { // método para processar a linh
     }
 
     if (ncampos > 5) { // processar o sexto campo para idiomas suportados
-        separaArray(campos[5], game->supportedLanguages, 50); // separar os idiomas e armazenar no array
+        separaArray(campos[5], game->supportedLanguages); // separar os idiomas e armazenar no array
         for (int i = 0; i < 50 && game->supportedLanguages[i][0] != '\0'; i++) limparAspas(game->supportedLanguages[i]); // remover aspas de cada idioma
     }
 
@@ -372,11 +366,11 @@ void processarLinha (char *linha, Game *game) { // método para processar a linh
         else game->achievements = inteiro(ach); // caso contrário, converter para inteiro e armazenar nas conquistas
     }
 
-    if (ncampos > 9) separaArray(campos[9], game->publishers, 50);
-    if (ncampos > 10) separaArray(campos[10], game->developers, 50);
-    if (ncampos > 11) separaArray(campos[11], game->categories, 50);
-    if (ncampos > 12) separaArray(campos[12], game->genres, 50);
-    if (ncampos > 13) separaArray(campos[13], game->tags, 50); // processar os demais campos para editores, desenvolvedores, categorias, gêneros e tags
+    if (ncampos > 9) separaArray(campos[9], game->publishers); // processar o décimo campo para editores
+    if (ncampos > 10) separaArray(campos[10], game->developers); // processar o décimo primeiro campo para desenvolvedores
+    if (ncampos > 11) separaArray(campos[11], game->categories); // processar o décimo segundo campo para categorias
+    if (ncampos > 12) separaArray(campos[12], game->genres); // processar o décimo terceiro campo para gêneros
+    if (ncampos > 13) separaArray(campos[13], game->tags); // processar o décimo quarto campo para tags
 }
 
 void mostrar (Game *g) { // método para mostrar os dados do jogo para cada atributo e suas devidas formatações
@@ -422,7 +416,7 @@ void mostrar (Game *g) { // método para mostrar os dados do jogo para cada atri
         if (i > 0) printf(", ");
         printf("%s", g->tags[i]);
     }
-    printf("] ##\n");
+    printf("] ##\n"); // finalizar a linha
 }
 
 int main() { // main do programa
@@ -439,10 +433,10 @@ int main() { // main do programa
             int len = length(linha); // obter o tamanho da linha lida
             if (len > 0 && linha[len - 1] == '\n') linha[len - 1] = '\0'; // remove o caractere de nova linha, se presente
 
-            int iLin = 0, iGame = 0; // índice para percorrer as linhas
+            int iLin = 0, iId = 0; // índice para percorrer as linhas
             char idGame[10]; // buffer para armazenar o id como string
-            while (linha[iLin] != '\0' && linha[iLin] != ',' && iGame < 9) idGame[iGame++] = linha[iLin++]; // extrair o id
-            idGame[iGame] = '\0'; // finalizar a string do id montado
+            while (linha[iLin] != '\0' && linha[iLin] != ',' && iId < 9) idGame[iId++] = linha[iLin++]; // extrair o id
+            idGame[iId] = '\0'; // finalizar a string do id montado
 
             if (cod == inteiro(idGame)) { // se o id da linha for igual ao código procurado
                 Game g; // criar uma variável do tipo Game

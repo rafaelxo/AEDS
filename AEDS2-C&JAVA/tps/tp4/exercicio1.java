@@ -329,11 +329,10 @@ public class exercicio1 {
         String[] campos = new String[15]; // array para armazenar os campos separados
         separaCampos(str, campos); // separa os campos da linha
 
-        // setagem do identificador único, nome, data de lançamento e estimativa de compradores
-        game.setId(inteiro(campos[0] == null ? "" : campos[0]));
-        game.setName(campos[1] == null ? "" : campos[1]);
-        game.setReleaseDate(campos[2] == null ? "" : campos[2]);
-        game.setEstimatedOwners(inteiro(campos[3] == null ? "" : campos[3]));
+        game.setId(inteiro(campos[0] == null ? "" : campos[0])); // setagem do identificador único
+        game.setName(campos[1] == null ? "" : campos[1]); // setagem do nome
+        game.setReleaseDate(campos[2] == null ? "" : campos[2]); // setagem da data de lançamento
+        game.setEstimatedOwners(inteiro(campos[3] == null ? "" : campos[3])); // setagem da estimativa de compradores
 
         // setagem do preço
         if (comparar(campos[4] == null ? "" : campos[4], "Free to Play")) game.setPrice(0.0f); // tratamento especial para "Free to Play"
