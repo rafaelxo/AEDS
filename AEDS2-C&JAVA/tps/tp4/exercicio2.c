@@ -7,6 +7,7 @@ int length (char *s) { // método para obter o tamanho da string
 
     int i = 0; // inicializa o índice
     while (s[i] != '\0') i++; // percorre a string até o caractere nulo
+
     return i; // retorna o tamanho da string
 }
 
@@ -18,6 +19,7 @@ bool comparar (char *a, char *b) { // método para comparar duas strings
         if (a[i] != b[i]) return false; // se algum caractere for diferente, retorna false
         i++;
     }
+
     return a[i] == '\0' && b[i] == '\0'; // retorna true se ambas chegaram ao final, caso contrário false
 }
 
@@ -35,6 +37,7 @@ char *copiar (char *a, char *b) { // método para copiar uma string em outra
         a++; b++; // avança ambos os ponteiros
     }
     *a = '\0'; // finaliza a string saida com o caractere nulo
+
     return str; // retorna o início da string saida
 }
 
@@ -52,8 +55,8 @@ char *concatenar (char *a, char *b) { // método para concatenar duas strings
         *a = *b; // copia o caractere de b para a
         a++; b++; // avança ambos os ponteiros
     }
-
     *a = '\0';
+
     return str; // retorna a string a
 }
 
@@ -67,6 +70,7 @@ void trim (char *str) { // método para remover espaços em branco do início e 
     int ini = 0, fim = length(str) - 1; // índices para o início e fim da string
     while (ini <= fim && espaco(str[ini])) ini++; // remove espaços em branco do início
     while (fim >= ini && espaco(str[fim])) fim--; // remove espaços em branco do fim
+
     int k = 0; // índice para a nova posição na string
     for (int t = ini; t <= fim; t++) str[k++] = str[t]; // desloca os caracteres para o início
     str[k] = '\0'; // finaliza a string removendo os espaços em branco do fim
@@ -84,6 +88,7 @@ void limparAspas (char *str) { // método para remover aspas do início e fim da
             str[n - 2] = '\0'; // finaliza a string removendo o último caractere
         }
     }
+
     trim(str); // remove espaços em branco novamente
 }
 
@@ -100,6 +105,7 @@ int inteiro (char *str) { // método para converter string em int
         negat = true; // marca como negativo
         i++;
     }
+
     for (; i <= fim; i++) { // percorre cada caractere da string
         char c = str[i];
         if (c >= '0' && c <= '9') { // se for um dígito
@@ -107,6 +113,7 @@ int inteiro (char *str) { // método para converter string em int
             achou = true; // marca que encontrou um dígito
         }
     }
+
     return achou ? (negat ? -num : num) : 0; // retorna o número final, considerando o sinal
 }
 
@@ -123,6 +130,7 @@ float real (char *str) { // método para converter string em float
         negat = true; // marca como negativo
         i++;
     }
+
     for (; i <= fim; i++) { // percorre cada caractere da string
         char c = str[i];
         if (c == '.') decimal = true; // se encontrar um ponto, marca que está na parte decimal
@@ -135,6 +143,7 @@ float real (char *str) { // método para converter string em float
             }
         }
     }
+
     return achou ? (negat ? -num : num) : 0.0f; // retorna o número final, considerando o sinal
 }
 
@@ -291,8 +300,8 @@ void formatarData (char *src, char dest[]) { // método para formatar a data con
 
 void formatarPreco (float preco) { // método para formatar o preço conforme o enunciado
     if (preco == 0.0f) printf("0.0"); // se o preço for 0.0, imprime "0.0"
-    else if (preco == (int)preco) printf("%d", (int)preco); // se o preço for um número inteiro, imprime como inteiro
-    else if (((int)(preco * 10)) == (preco * 10)) printf("%.1f", preco); // se o preço tiver uma casa decimal, imprime com uma casa decimal
+    else if (preco == (int) preco) printf("%d", (int) preco); // se o preço for um número inteiro, imprime como inteiro
+    else if (((int) (preco * 10)) == (preco * 10)) printf("%.1f", preco); // se o preço tiver uma casa decimal, imprime com uma casa decimal
     else printf("%.2f", preco); // caso contrário, imprime com duas casas decimais
 }
 
@@ -419,7 +428,7 @@ void mostrar (Game *g) { // método para mostrar os dados do jogo para cada atri
 int main() { // main do programa
     char entrada[10]; // declaração e leitura da entrada
     while (!comparar(entrada, "FIM")) { // enquanto a entrada não for "FIM"
-        int id = inteiro(entrada); // converte a entrada para inteiro
+        int cod = inteiro(entrada); // converte a entrada para inteiro
         FILE *arq = fopen("/tmp/games.csv", "r"); // abertura do arquivo para leitura
 
         char linha[2000]; // buffer para ler cada linha do arquivo
@@ -430,14 +439,12 @@ int main() { // main do programa
             int len = length(linha); // obter o tamanho da linha lida
             if (len > 0 && linha[len - 1] == '\n') linha[len - 1] = '\0'; // remove o caractere de nova linha, se presente
 
-            int i = 0; // índice para percorrer a linha
+            int iLin = 0, iGame = 0; // índice para percorrer as linhas
             char idGame[10]; // buffer para armazenar o id como string
-            int ib = 0; // índice para idGame
-            while (linha[i] != '\0' && linha[i] != ',' && ib < 9) idGame[ib++] = linha[i++]; // extrair o id
-            idGame[ib] = '\0'; // finalizar a string do id
-            int idEntrada = inteiro(idGame); // converter o id para inteiro
+            while (linha[iLin] != '\0' && linha[iLin] != ',' && iGame < 9) idGame[iGame++] = linha[iLin++]; // extrair o id
+            idGame[iGame] = '\0'; // finalizar a string do id montado
 
-            if (idEntrada == id) { // se o id da linha for igual ao código procurado
+            if (cod == inteiro(idGame)) { // se o id da linha for igual ao código procurado
                 Game g; // criar uma variável do tipo Game
                 processarLinha(linha, &g); // processar a linha e preencher os dados do jogo
                 mostrar(&g); // mostrar os dados do jogo

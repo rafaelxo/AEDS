@@ -10,6 +10,7 @@ public class exercicio1 {
         for (int i = 0; i < a.length(); i++) { // loop para comparar caractere por caractere
             if (a.charAt(i) != b.charAt(i)) return false; // se encontrar um caractere diferente, não são iguais
         }
+
         return true; // se passar por todos os caracteres e não encontrar diferenças, são iguais
     }
 
@@ -107,7 +108,8 @@ public class exercicio1 {
             String[] mesesNum = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}; // array com os números dos meses correspondentes
 
             String mes = ""; // variável para armazenar o mês
-            for (int i = 0; i < 3 && i < str.length(); i++) mes += str.charAt(i); // extrai os primeiros três caracteres para o mês
+            int i;
+            for (i = 0; i < 3 && i < str.length(); i++) mes += str.charAt(i); // extrai os primeiros três caracteres para o mês
             String mesNum = "01"; // variável para armazenar o número do mês, tendo 01 como padrão
             for (int j = 0; j < 12; j++) { // loop para encontrar o número do mês correspondente
                 if (comparar(mes, meses[j])) { // se encontrar o mês
@@ -117,7 +119,7 @@ public class exercicio1 {
             }
 
             String dia = ""; // variável para armazenar o dia
-            int i = 4; // índice para percorrer a string
+            i = 4; // índice para percorrer a string
             while (i < str.length() && str.charAt(i) >= '0' && str.charAt(i) <= '9') { // loop para extrair o dia
                 dia += str.charAt(i); // adiciona o caractere ao dia
                 i++;
@@ -319,6 +321,7 @@ public class exercicio1 {
         int qtd = separaArray(campo == null ? "" : campo, tmp); // separa os campos e obtém a quantidade
         String[] result = new String[qtd]; // array final com o tamanho exato
         for (int i = 0; i < qtd; i++) result[i] = tmp[i]; // copia os campos para o array final
+
         return result; // retorna o array final
     }
 
