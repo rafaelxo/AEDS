@@ -202,7 +202,7 @@ typedef struct { // estrutura para armazenar os dados do jogo com seus atributos
     char supportedLanguages[50][50], publishers[50][50], developers[50][50], categories[50][50], genres[50][50], tags[50][50];
 } Game;
 
-void inicializar (Game *g) { // método para inicializar os campos do jogo (rutor)
+void inicializar (Game *g) { // método para inicializar os campos do jogo (construtor)
     g->id = 0;
     g->name[0] = '\0';
     g->releaseDate[0] = '\0';
