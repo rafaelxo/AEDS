@@ -20,8 +20,6 @@ AEDS/
 
 ## 💡 Conteúdo
 
-O repositório inclui:
-
 - Exercícios de lógica e programação (C, C++ e Java)
 - Materiais teóricos de apoio (apostilas, slides e PDFs)
 - Códigos base para consulta e estudos
