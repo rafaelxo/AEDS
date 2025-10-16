@@ -7,12 +7,14 @@ Contém exercícios, exemplos, materiais de apoio e códigos desenvolvidos em **
 
 ## 📂 Estrutura do Repositório
 
+```
 AEDS/
 ├── AEDS1-C&CPP/ # Conteúdos e exercícios da primeira parte (C / C++)
 ├── AEDS2-C&JAVA/ # Conteúdos e exercícios da segunda parte (C / Java)
 ├── unidade-material/ # Materiais teóricos, apostilas e slides
 ├── PDFs/ # Livros e documentos de apoio
 └── README.md # Este arquivo
+```
 
 ---
 
