@@ -147,6 +147,56 @@ float real (char *str) { // método para converter string em float
     return achou ? (negat ? -num : num) : 0.0f; // retorna o número final, considerando o sinal
 }
 
+typedef struct { // estrutura para armazenar a data com dia, mês e ano
+    int dia, mes, ano;
+} Data;
+
+void setData (Data *data, char *str) { // método para setar a data a partir de uma string
+    data->dia = 1;
+    data->mes = 1;
+    data->ano = 1;
+
+    if (!str || length(str) == 0) return; // se a string for nula ou vazia, mantém valores padrão
+
+    char meses[12][4] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; // array com os meses abreviados
+
+    char mes[4] = {0}; // array para armazenar o mês
+    int i = 0; // índice para percorrer a string de origem
+    for (i = 0; i < 3 && i < length(str); i++) mes[i] = str[i]; // copia os três primeiros caracteres (mês)
+    mes[3] = '\0'; // finaliza a string do mês
+
+    for (int j = 0; j < 12; j++) { // loop para encontrar o número do mês correspondente
+        if (comparar(mes, meses[j])) { // se encontrar o mês
+            data->mes = j + 1; // atribui o número do mês (1-12)
+            break;
+        }
+    }
+
+    i = 4; // índice para percorrer a string
+    int dia = 0;
+    while (i < length(str) && str[i] >= '0' && str[i] <= '9') { // enquanto encontrar dígitos
+        dia = dia * 10 + (str[i] - '0'); // converte para número
+        i++;
+    }
+    if (dia > 0) data->dia = dia; // se houver dia válido, atribui
+
+    i += 2; // pula o espaço e vírgula após o dia
+    int ano = 0;
+    while (i < length(str) && str[i] >= '0' && str[i] <= '9') { // enquanto encontrar dígitos
+        ano = ano * 10 + (str[i] - '0'); // converte para número
+        i++;
+    }
+    if (ano >= 1000 && ano <= 9999) data->ano = ano; // se o ano tiver 4 dígitos, atribui
+}
+
+typedef struct { // estrutura para armazenar os dados do jogo com seus atributos
+    int id, estimatedOwners, metacriticScore, achievements;
+    char name[200];
+    Data releaseDate;
+    float price, userScore;
+    char supportedLanguages[50][50], publishers[50][50], developers[50][50], categories[50][50], genres[50][50], tags[50][50];
+} Game;
+
 int separaCampos (char *str, char campos[][1000]) { // método para separar os campos de uma linha CSV
     int n = 0, x = 0; // n é o contador de campos, x é o índice dentro do campo atual
     bool aspas = false; // flag para indicar se estamos dentro de aspas
@@ -204,17 +254,12 @@ int separaArray (char *str, char dest[][50]) { // método para separar os elemen
     return n; // retornar o número de elementos separados
 }
 
-typedef struct { // estrutura para armazenar os dados do jogo com seus atributos
-    int id, estimatedOwners, metacriticScore, achievements;
-    char name[200], releaseDate[30];
-    float price, userScore;
-    char supportedLanguages[50][50], publishers[50][50], developers[50][50], categories[50][50], genres[50][50], tags[50][50];
-} Game;
-
 void inicializar (Game *g) { // método para inicializar os campos do jogo (construtor)
     g->id = 0;
     g->name[0] = '\0';
-    g->releaseDate[0] = '\0';
+    g->releaseDate.dia = 1;
+    g->releaseDate.mes = 1;
+    g->releaseDate.ano = 1;
     g->estimatedOwners = 0;
     g->price = 0.0f;
     g->metacriticScore = -1;
@@ -230,61 +275,49 @@ void inicializar (Game *g) { // método para inicializar os campos do jogo (cons
     }
 }
 
-void formatarData (char *src, char dest[]) { // método para formatar a data conforme o enunciado
+void formatarData (Data *data, char dest[]) { // método para formatar a data conforme o enunciado
     dest[0] = '\0'; // inicializa a string de destino como vazia
-    if (!src || length(src) == 0) { // se a string de origem for nula ou vazia
+
+    if (data == NULL) { // se o ponteiro for nulo
         copiar(dest, "01/01/0001"); // copia a data padrão
         return;
     }
 
-    char meses[12][4] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; // array com os meses abreviados
-    char mesesNum[12][3] = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}; // array com os meses em formato numérico
-
-    char mes[4] = {0}; // array para armazenar o mês
-    int i = 0; // índice para percorrer a string de origem
-    for (i = 0; i < 3 && i < length(src); i++) mes[i] = src[i]; // copia os três primeiros caracteres (mês)
-    mes[3] = '\0'; // finaliza a string do mês
-    char mesNum[3] = "01"; // array para armazenar o número do mês
-    for (int j = 0; j < 12; j++) { // loop para encontrar o número do mês correspondente
-        if (comparar(mes, meses[j])) { // se encontrar o mês
-            copiar(mesNum, mesesNum[j]); // atribui o número do mês correspondente
-            j = 12; // sai do loop após encontrar o mês
+    char diaNum[3] = "01"; // array para armazenar o número do dia
+    if (data->dia >= 1 && data->dia <= 31) { // se o dia for válido
+        if (data->dia < 10) { // se for menor que 10, adiciona zero à esquerda
+            diaNum[0] = '0';
+            diaNum[1] = '0' + data->dia;
+            diaNum[2] = '\0';
+        } else { // se for >= 10, converte normalmente
+            diaNum[0] = '0' + (data->dia / 10);
+            diaNum[1] = '0' + (data->dia % 10);
+            diaNum[2] = '\0';
         }
     }
 
-    char dia[3] = {0}; // array para armazenar o dia
-    i = 4; // índice para percorrer a string
-    int pos = 0; // índice para o dia
-    while (i < length(src) && src[i] >= '0' && src[i] <= '9' && pos < 2) { // enquanto encontrar dígitos
-        dia[pos++] = src[i]; // copia o dígito para o dia
-        i++;
+    char mesNum[3] = "01"; // array para armazenar o número do mês
+    if (data->mes >= 1 && data->mes <= 12) { // se o mês for válido
+        if (data->mes < 10) { // se for menor que 10, adiciona zero à esquerda
+            mesNum[0] = '0';
+            mesNum[1] = '0' + data->mes;
+            mesNum[2] = '\0';
+        } else { // se for >= 10, converte normalmente
+            mesNum[0] = '0' + (data->mes / 10);
+            mesNum[1] = '0' + (data->mes % 10);
+            mesNum[2] = '\0';
+        }
     }
-    dia[pos] = '\0'; // finaliza a string do dia
-    char diaNum[3] = "01"; // array para armazenar o número do dia
-    int tam = length(dia); // obtém o tamanho do dia
-    if (tam == 0) { // se não houver dia, atribui 01
-        diaNum[0] = '0';
-        diaNum[1] = '1';
-        diaNum[2] = '\0';
-    }
-    else if (tam == 1) { // se houver um dígito, adiciona o zero à esquerda
-        diaNum[0] = '0';
-        diaNum[1] = dia[0];
-        diaNum[2] = '\0';
-    }
-    else copiar(diaNum, dia); // caso contrário, copia o dia normalmente
 
-    char ano[5] = {0}; // array para armazenar o ano
-    i += 2; // pula o espaço após o dia
-    pos = 0; // índice para o ano
-    while (i < length(src) && src[i] >= '0' && src[i] <= '9' && pos < 4) { // enquanto encontrar dígitos
-        ano[pos++] = src[i]; // copia o dígito para o ano
-        i++;
+    char ano[5] = "0001"; // array para armazenar o ano
+    if (data->ano >= 1000 && data->ano <= 9999) { // se o ano for válido (4 dígitos)
+        ano[0] = '0' + (data->ano / 1000);
+        ano[1] = '0' + ((data->ano / 100) % 10);
+        ano[2] = '0' + ((data->ano / 10) % 10);
+        ano[3] = '0' + (data->ano % 10);
+        ano[4] = '\0';
     }
-    ano[pos] = '\0'; // finaliza a string do ano
-    if (length(ano) != 4) copiar(ano, "0001"); // se o ano não tiver 4 dígitos, atribui 0001
 
-    dest[0] = '\0'; // inicializa a string de destino como vazia
     concatenar(dest, diaNum);
     concatenar(dest, "/");
     concatenar(dest, mesNum);
@@ -312,8 +345,7 @@ void processarLinha (char *linha, Game *game) { // método para processar a linh
     }
 
     if (ncampos > 2) { // processar o terceiro campo para data de lançamento
-        copiar(game->releaseDate, campos[2]); // copiar o terceiro campo para a data de lançamento
-        trim(game->releaseDate);
+        setData(&game->releaseDate, campos[2]); // copiar o terceiro campo para a data de lançamento
     }
 
     if (ncampos > 3) { // processar o quarto campo para estimativa de donos
@@ -375,7 +407,7 @@ void processarLinha (char *linha, Game *game) { // método para processar a linh
 
 void mostrar (Game *g) { // método para mostrar os dados do jogo para cada atributo e suas devidas formatações
     char data[11];
-    formatarData(g->releaseDate, data);
+    formatarData(&g->releaseDate, data);
 
     printf("=> %d ## %s ## %s ## %d ## ", g->id, g->name, data, g->estimatedOwners); // imprimir id, nome, data formatada e estimativa de donos
     formatarPreco(g->price); // imprimir o preço formatado

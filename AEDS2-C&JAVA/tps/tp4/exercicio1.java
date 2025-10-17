@@ -14,19 +14,92 @@ public class exercicio1 {
         return true; // se passar por todos os caracteres e não encontrar diferenças, são iguais
     }
 
-    public static class Game { // classe game
+    static class Data {
+
+        // atributos
+        private int dia, mes, ano;
+
+        public Data() { // construtor padrão
+            this.dia = 1;
+            this.mes = 1;
+            this.ano = 1;
+        }
+        public Data(int dia, int mes, int ano) { // construtor com parâmetros
+            setDia(dia);
+            setMes(mes);
+            setAno(ano);
+        }
+        public Data(String dataStr) { // construtor que recebe string no formato "Mon dd, yyyy"
+            setData(dataStr);
+        }
+
+        // getters e setters para cada atributo
+        public int getDia() { return dia; }
+        public void setDia (int dia) { this.dia = dia; }
+        public int getMes() { return mes; }
+        public void setMes (int mes) { this.mes = mes; }
+        public int getAno() { return ano; }
+        public void setAno (int ano) { this.ano = ano; }
+
+        public void setData(String str) { // método para setar a data a partir de uma string no formato "Mon dd, yyyy"
+            if (str == null || str.length() == 0) { // tratamento para string nula ou vazia
+                this.dia = 1;
+                this.mes = 1;
+                this.ano = 1;
+                return; // seta data padrão e retorna
+            }
+
+            String[] meses = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; // array com as abreviações dos meses
+
+            String mesStr = ""; // variável para armazenar o mês
+            int i;
+            for (i = 0; i < 3 && i < str.length(); i++) mesStr += str.charAt(i); // extrai os primeiros três caracteres para o mês
+
+            this.mes = 1; // padrão
+            for (int j = 0; j < 12; j++) { // loop para encontrar o mês correspondente
+                if (comparar(mesStr, meses[j])) { // se encontrar o mês
+                    this.mes = j + 1; // atribui o número do mês correspondente
+                    j = 12; // sai do loop após encontrar o mês
+                }
+            }
+
+            String diaStr = ""; // variável para armazenar o dia
+            i = 4; // pula espaços
+            while (i < str.length() && str.charAt(i) >= '0' && str.charAt(i) <= '9') { // loop para extrair o dia
+                diaStr += str.charAt(i); // adiciona o caractere ao dia
+                i++;
+            }
+            this.dia = diaStr.length() > 0 ? inteiro(diaStr) : 1; // converte o dia ou define como 1 se vazio
+
+            String anoStr = ""; // variável para armazenar o ano
+            i += 2; // pula vírgula
+            while (i < str.length() && str.charAt(i) >= '0' && str.charAt(i) <= '9') { // loop para extrair o ano
+                anoStr += str.charAt(i); // adiciona o caractere ao ano
+                i++;
+            }
+            this.ano = anoStr.length() == 4 ? inteiro(anoStr) : 1; // converte o ano ou define como 1 se inválido
+        }
+
+        public String formatarData() { // método para formatar a data no formato dd/mm/yyyy
+            String diaStr = (dia < 10 ? "0" : "") + dia; // formata o dia com dois dígitos
+            String mesStr = (mes < 10 ? "0" : "") + mes; // formata o mês com dois dígitos
+            return diaStr + "/" + mesStr + "/" + ano; // retorna a data formatada
+        }
+    }
+
+    static class Game { // classe game
 
         // atributos
         private int id, estimatedOwners, metacriticScore, achievements;
-        private String name, releaseDate;
+        private String name;
+        private Data releaseDate;
         private float price, userScore;
         private String[] supportedLanguages, publishers, developers, categories, genres, tags;
 
-        // construtor padrão
-        public Game() {
+        public Game() { // construtor padrão
             this.id = 0;
             this.name = "";
-            this.releaseDate = "";
+            this.releaseDate = new Data();
             this.estimatedOwners = 0;
             this.price = 0;
             this.supportedLanguages = new String[0];
@@ -39,9 +112,7 @@ public class exercicio1 {
             this.genres = new String[0];
             this.tags = new String[0];
         }
-
-        // construtor com parâmetros
-        public Game(int id, String name, String releaseDate, int estimatedOwners, float price, String[] supportedLanguages, int metacriticScore, float userScore, int achievements, String[] publishers, String[] developers, String[] categories, String[] genres, String[] tags) {
+        public Game (int id, String name, String releaseDate, int estimatedOwners, float price, String[] supportedLanguages, int metacriticScore, float userScore, int achievements, String[] publishers, String[] developers, String[] categories, String[] genres, String[] tags) { // construtor com parâmetros
             setId(id);
             setName(name);
             setReleaseDate(releaseDate);
@@ -65,8 +136,8 @@ public class exercicio1 {
         public String getName() { return name; }
         public void setName (String name) { this.name = name; }
 
-        public String getReleaseDate() { return releaseDate; }
-        public void setReleaseDate (String releaseDate) { this.releaseDate = releaseDate; }
+        public Data getReleaseDate() { return releaseDate; }
+        public void setReleaseDate (String releaseDate) { this.releaseDate = new Data(releaseDate); }
 
         public int getEstimatedOwners() { return estimatedOwners; }
         public void setEstimatedOwners (int estimatedOwners) { this.estimatedOwners = estimatedOwners; }
@@ -101,40 +172,14 @@ public class exercicio1 {
         public String[] getTags() { return tags; }
         public void setTags(String[] tags) { this.tags = tags; }
 
-        public static String formatarData (String str) { // método para formatar a data
-            if (str == null || str.length() == 0) return "01/01/0001"; // retorna data padrão se a string for nula ou muito curta
+        public static String formatarData (Data data) { // método para formatar objeto Data
+            if (data == null) return "01/01/0001"; // retorna data padrão se o objeto for nulo
 
-            String[] meses = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; // array com as abreviações dos meses
-            String[] mesesNum = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}; // array com os números dos meses correspondentes
+            String dia = data.getDia() < 10 ? "0" + data.getDia() : "" + data.getDia(); // formata o dia com dois dígitos
+            String mes = data.getMes() < 10 ? "0" + data.getMes() : "" + data.getMes(); // formata o mês com dois dígitos
+            String ano = "" + data.getAno(); // converte o ano para string
 
-            String mes = ""; // variável para armazenar o mês
-            int i;
-            for (i = 0; i < 3 && i < str.length(); i++) mes += str.charAt(i); // extrai os primeiros três caracteres para o mês
-            String mesNum = "01"; // variável para armazenar o número do mês, tendo 01 como padrão
-            for (int j = 0; j < 12; j++) { // loop para encontrar o número do mês correspondente
-                if (comparar(mes, meses[j])) { // se encontrar o mês
-                    mesNum = mesesNum[j]; // atribui o número do mês correspondente
-                    j = 12; // sai do loop após encontrar o mês
-                }
-            }
-
-            String dia = ""; // variável para armazenar o dia
-            i = 4; // índice para percorrer a string
-            while (i < str.length() && str.charAt(i) >= '0' && str.charAt(i) <= '9') { // loop para extrair o dia
-                dia += str.charAt(i); // adiciona o caractere ao dia
-                i++;
-            }
-            String diaNum = dia.length() == 1 ? "0" + dia : dia; // formata o dia com dois dígitos, tendo "01" como padrão
-
-            String ano = ""; // variável para armazenar o ano
-            i += 2; // pula espaço e vírgula
-            while (i < str.length() && str.charAt(i) >= '0' && str.charAt(i) <= '9') { // loop para extrair o ano
-                ano += str.charAt(i); // adiciona o caractere ao ano
-                i++;
-            }
-            if (ano.length() != 4) ano = "0001"; // se o ano não tiver 4 dígitos, define como "0001"
-
-            return diaNum + "/" + mesNum + "/" + ano; // retorna a data formatada
+            return dia + "/" + mes + "/" + ano; // retorna a data formatada
         }
 
         public static String formatarFloat (float n, int casas) { // método para formatar float com 1 ou 2 casas decimais
@@ -359,28 +404,37 @@ public class exercicio1 {
     }
 
     public static void main(String[] args) { // main do programa
-        File arq = new File("/tmp/games.csv"); // abertura do arquivo
-        Game[] games = new Game[1851]; int qtd = 0; // inicialização do array de games e contador
+        String entrada = sc.nextLine(); // declaração e leitura da entrada
+        while (!comparar(entrada, "FIM")) { // enquanto a entrada não for "FIM"
+            int cod = inteiro(entrada); // converte a entrada para inteiro
+            File arq = new File("/tmp/games.csv"); // abertura do arquivo para leitura
 
-        try {
-            Scanner leitor = new Scanner(arq, "UTF-8"); // leitura do arquivo
-            leitor.nextLine(); // pula a primeira linha (cabeçalho)
-            while (leitor.hasNextLine()) { // loop para ler linhas enquanto existirem
-                String linha = leitor.nextLine(); // declaração e leitura da linha
-                games[qtd] = new Game(); // cria um novo objeto Game
-                processar(linha, games[qtd]); // processa a linha e preenche o objeto Game
-                qtd++; // incrementa o contador de games
-            }
-            leitor.close();
-        } catch (FileNotFoundException e) { System.err.println(e.getMessage()); }
+            try {
+                Scanner leitor = new Scanner(arq, "UTF-8"); // leitura do arquivo
+                leitor.nextLine(); // ler a primeira linha (cabeçalho) e ignorar
 
-        String str = sc.nextLine(); // declaração e leitura dos id's como string
-        while (!comparar(str, "FIM")) { // loop para processar até a entrada "FIM"
-            int cod = inteiro(str); // converte a string para inteiro
-            for (int i = 0; i < qtd; i++) { // loop para buscar o game com o id correspondente
-                if (games[i].getId() == cod) System.out.println(games[i].mostrar()); // se encontrar, imprime os detalhes do game
-            }
-            str = sc.nextLine(); // lê a próxima entrada
+                boolean encontrado = false;
+                while (!encontrado && leitor.hasNextLine()) { // ler cada linha do arquivo
+                    String linha = leitor.nextLine(); // declaração e leitura da linha
+
+                    int iLin = 0, iId = 0; // índices para extrair o id da linha e da entrada
+                    String idGame = ""; // variável para armazenar o id do jogo
+                    while (iLin < linha.length() && linha.charAt(iLin) != ',' && iId < 9) { // loop para extrair o id da linha
+                        idGame += linha.charAt(iLin); // adiciona o caractere ao id do jogo
+                        iLin++; iId++;
+                    }
+
+                    if (cod == inteiro(idGame)) { // se o id da linha for igual ao código procurado
+                        Game game = new Game(); // criar uma variável do tipo Game
+                        processar(linha, game); // processar a linha e preencher os dados do jogo
+                        System.out.println(game.mostrar()); // mostrar os dados do jogo
+                        encontrado = true; // marcar como encontrado e sair do loop
+                    }
+                }
+                leitor.close();
+            } catch (FileNotFoundException e) { System.err.println(e.getMessage()); }
+
+            entrada = sc.nextLine(); // lê a próxima entrada
         }
     }
 }
