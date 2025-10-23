@@ -61,7 +61,7 @@ public class exercicio1 {
             for (int j = 0; j < 12; j++) { // loop para encontrar o mês correspondente
                 if (mesStr.equals(meses[j])) { // se encontrar o mês (usa equals)
                     this.mes = j + 1; // atribui o número do mês correspondente
-                    j = 12; // força saída do loop
+                    break; // força saída do loop
                 }
             }
 
