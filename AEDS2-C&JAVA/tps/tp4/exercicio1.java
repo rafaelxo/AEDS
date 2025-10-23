@@ -4,17 +4,7 @@ import java.io.*;
 public class exercicio1 {
     public static Scanner sc = new Scanner(System.in); // scanner para leitura de entrada
 
-    public static boolean comparar (String a, String b) { // método para comparar duas strings
-        if (a == null || b == null || a.length() != b.length()) return false; // tratamento para strings nulas ou de tamanhos diferentes
-
-        for (int i = 0; i < a.length(); i++) { // loop para comparar caractere por caractere
-            if (a.charAt(i) != b.charAt(i)) return false; // se encontrar um caractere diferente, não são iguais
-        }
-
-        return true; // se passar por todos os caracteres e não encontrar diferenças, são iguais
-    }
-
-    static class Data {
+    static class Data { // classe data
 
         // atributos
         private int dia, mes, ano;
@@ -24,12 +14,12 @@ public class exercicio1 {
             this.mes = 1;
             this.ano = 1;
         }
-        public Data(int dia, int mes, int ano) { // construtor com parâmetros
+        public Data (int dia, int mes, int ano) { // construtor com parâmetros
             setDia(dia);
             setMes(mes);
             setAno(ano);
         }
-        public Data(String dataStr) { // construtor que recebe string no formato "Mon dd, yyyy"
+        public Data (String dataStr) { // construtor que recebe string no formato "Mon dd, yyyy"
             setData(dataStr);
         }
 
@@ -41,7 +31,7 @@ public class exercicio1 {
         public int getAno() { return ano; }
         public void setAno (int ano) { this.ano = ano; }
 
-        public void setData(String str) { // método para setar a data a partir de uma string no formato "Mon dd, yyyy"
+        public void setData (String str) { // método para setar a data a partir de uma string no formato "Mon dd, yyyy"
             if (str == null || str.length() == 0) { // tratamento para string nula ou vazia
                 this.dia = 1;
                 this.mes = 1;
@@ -51,33 +41,33 @@ public class exercicio1 {
 
             String[] meses = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; // array com as abreviações dos meses
 
-            String mesStr = ""; // variável para armazenar o mês
-            int i;
-            for (i = 0; i < 3 && i < str.length(); i++) mesStr += str.charAt(i); // extrai os primeiros três caracteres para o mês
+            int len = str.length(); // cache length para todo método
+            String mesStr = "", diaStr = "", anoStr = ""; // strings temporárias para armazenar mês, dia e ano
+            int i = 0;
+            int fase = 0; // 0: mes (primeiros 3), 1: dia (digitos apos espaco), 2: ano (digitos apos virgula/espaco)
+            while (i < len) { // loop para percorrer a string
+                char c = str.charAt(i); // caractere atual
+                if (fase == 0 && i >= 3) { fase = 1; i++; continue; } // sai de mes apos 3 caracteres
+                if (fase == 1 && c == ',') { fase = 2; i++; continue; } // sai de dia na virgula
+                if (fase == 2 && (c == ' ' || c == ',')) { i++; continue; } // pula espacos/comas em ano
+
+                if (fase == 0) mesStr += c; // coleta as iniciais do mês
+                else if (fase == 1 && c >= '0' && c <= '9') diaStr += c; // só digitos em dia
+                else if (fase == 2 && c >= '0' && c <= '9') anoStr += c; // só digitos em ano
+                i++;
+            }
 
             this.mes = 1; // padrão
             for (int j = 0; j < 12; j++) { // loop para encontrar o mês correspondente
-                if (comparar(mesStr, meses[j])) { // se encontrar o mês
+                if (mesStr.equals(meses[j])) { // se encontrar o mês (usa equals)
                     this.mes = j + 1; // atribui o número do mês correspondente
-                    j = 12; // sai do loop após encontrar o mês
+                    j = 12; // força saída do loop
                 }
             }
 
-            String diaStr = ""; // variável para armazenar o dia
-            i = 4; // pula espaços
-            while (i < str.length() && str.charAt(i) >= '0' && str.charAt(i) <= '9') { // loop para extrair o dia
-                diaStr += str.charAt(i); // adiciona o caractere ao dia
-                i++;
-            }
             this.dia = diaStr.length() > 0 ? inteiro(diaStr) : 1; // converte o dia ou define como 1 se vazio
 
-            String anoStr = ""; // variável para armazenar o ano
-            i += 2; // pula vírgula
-            while (i < str.length() && str.charAt(i) >= '0' && str.charAt(i) <= '9') { // loop para extrair o ano
-                anoStr += str.charAt(i); // adiciona o caractere ao ano
-                i++;
-            }
-            this.ano = anoStr.length() == 4 ? inteiro(anoStr) : 1; // converte o ano ou define como 1 se inválido
+            this.ano = anoStr.length() == 4 ? inteiro(anoStr) : 1; // converte o ano ou define como 1 se inválido (4 digitos exatos)
         }
 
         public String formatarData() { // método para formatar a data no formato dd/mm/yyyy
@@ -185,16 +175,18 @@ public class exercicio1 {
         public static String formatarFloat (float n, int casas) { // método para formatar float com 1 ou 2 casas decimais
             if (n == 0.0f || (casas == 1 && n == -1.0f)) return "0.0"; // tratamento especial para 0.0 e -1.0 com 1 casa decimal
 
-            int inteiro = (int) n; // parte inteira do número
-            String result = inteiro + "."; // string para armazenar o resultado, começando com a parte inteira e o ponto decimal
+            int inteiro = (int) n; // parte inteira
+            String result = "" + inteiro + "."; // inicia com int + "."
+            float decimalF = n - inteiro; // parte decimal
             if (casas == 2) { // se for para formatar com 2 casas decimais
-                int decimal = (int) ((n - inteiro) * 100 + 0.5f); // parte decimal arredondada
-                if (decimal % 10 == 0) result += (decimal / 10); // se o último dígito for 0, adiciona apenas o primeiro dígito
-                else if (decimal < 10) result += "0" + decimal; // se for menor que 10, adiciona um 0 antes
-                else result += decimal; // caso contrário, adiciona os dois dígitos
+                int decimal = (int) (decimalF * 100 + 0.5f); // parte decimal arredondada
+                int decInt = decimal / 10; // primeiro dígito decimal
+                if (decimal % 10 == 0) result += decInt; // se o segundo dígito for 0, adiciona só o primeiro
+                else if (decimal < 10) result += "0" + decimal; // se for menor que 10, adiciona 0 antes
+                else result += "" + decimal; // caso contrário, adiciona os dois dígitos
             } else { // se for para formatar com 1 casa decimal
-                int decimal = (int) ((n - inteiro) * 10 + 0.5f); // parte decimal arredondada
-                result += decimal; // adiciona o dígito decimal
+                int decimal = (int) (decimalF * 10 + 0.5f); // parte decimal arredondada
+                result += "" + decimal; // adiciona o dígito decimal
             }
 
             return result; // retorna a string formatada
@@ -204,9 +196,10 @@ public class exercicio1 {
             if (arr == null || arr.length == 0) return "[]"; // se o array for nulo ou vazio, retorna string vazia
 
             String result = "["; // string para armazenar o resultado
-            for (int i = 0; i < arr.length; i++) { // loop para percorrer o array
+            int lenArr = arr.length; // tamanho do array
+            for (int i = 0; i < lenArr; i++) { // loop para percorrer o array
                 result += arr[i]; // adiciona o elemento atual
-                if (i < arr.length - 1) result += ", "; // se não for o último elemento, adiciona vírgula e espaço
+                if (i < lenArr - 1) result += ", "; // se não for o último elemento, adiciona vírgula e espaço (early check)
             }
             result += "]"; // fecha a lista
 
@@ -232,9 +225,16 @@ public class exercicio1 {
     public static int inteiro (String str) { // método para converter string em inteiro
         if (str == null || str.length() == 0) return 0; // tratamento para string nula ou vazia
 
-        int i = 0, fim = str.length() - 1; // índices para início e fim da string
-        while (i <= fim && (str.charAt(i) == ' ' || str.charAt(i) == '\t')) i++; // ignora espaços iniciais
-        while (fim >= i && (str.charAt(fim) == ' ' || str.charAt(fim) == '\t')) fim--; // ignora espaços finais
+        int len = str.length(); // tamanho da string
+        String tempStr = ""; // string temporária para armazenar a string sem espaços em branco
+        for (int i = 0; i < len; i++) { // loop para percorrer os caracteres da string
+            char c = str.charAt(i);
+            if (c != ' ' && c != '\t') tempStr += c; // coleta só não-brancos (equiv. skips iniciais/finais)
+        }
+        if (tempStr.length() == 0) return 0; // se a string temporária estiver vazia, retorna 0
+        str = tempStr; // atualiza a string original
+
+        int i = 0, fim = str.length() - 1; // índices para início e fim da string (fim agora exato)
 
         int num = 0; // variável para o número resultante
         boolean achou = false, negat = false; // flags para marcar se encontrou pelo menos um dígito e se é negativo
@@ -257,9 +257,16 @@ public class exercicio1 {
     public static float real (String str) { // método para converter string em float
         if (str == null || str.length() == 0) return 0; // tratamento para string nula ou vazia
 
+        int len = str.length(); // tamanho da string
+        String tempStr = ""; // string temporária para armazenar a string sem espaços em branco
+        for (int i = 0; i < len; i++) { // loop para percorrer os caracteres da string
+            char c = str.charAt(i);
+            if (c != ' ' && c != '\t') tempStr += c; // coleta só não-brancos (equiv. skips iniciais/finais)
+        }
+        if (tempStr.length() == 0) return 0; // se a string temporária estiver vazia, retorna 0
+        str = tempStr; // atualiza a string original
+
         int i = 0, fim = str.length() - 1; // índices para início e fim da string
-        while (i <= fim && (str.charAt(i) == ' ' || str.charAt(i) == '\t')) i++; // Ignora espaços iniciais
-        while (fim >= i && (str.charAt(fim) == ' ' || str.charAt(fim) == '\t')) fim--; // Ignora espaços finais
 
         float num = 0, div = 1; // variáveis para o número e divisor decimal
         boolean achou = false, negat = false, decimal = false; // flags para controle de parte decimal, se encontrou dígitos e se é negativo
@@ -289,7 +296,8 @@ public class exercicio1 {
             if (array[i] == null) array[i] = ""; // tratamento para elementos nulos
 
             int ini = 0, fim = array[i].length() - 1; // índices para início e fim do elemento
-            while (ini <= fim && (array[i].charAt(ini) == ' '|| array[i].charAt(ini) == '\t')) ini++; // move o índice inicial para o primeiro caractere não branco
+            int lenElem = array[i].length(); // tamanho do elemento
+            while (ini < lenElem && (array[i].charAt(ini) == ' '|| array[i].charAt(ini) == '\t')) ini++; // move o índice inicial para o primeiro caractere não branco
             while (fim >= ini && (array[i].charAt(fim) == ' '|| array[i].charAt(fim) == '\t')) fim--; // move o índice final para o último caractere não branco
 
             String novo = ""; // variável para armazenar o novo elemento sem espaços em branco
@@ -306,11 +314,12 @@ public class exercicio1 {
         String campo = ""; // variável temporária para armazenar o elemento atual
         boolean aspas = false; // variável para controle de aspas
 
-        for (int i = 0; i < str.length(); i++) { // loop para percorrer os caracteres da string
+        int len = str.length(); // tamanho da string
+        for (int i = 0; i < len; i++) { // loop para percorrer os caracteres da string
             char c = str.charAt(i);
             if (eArray && c == '\'') aspas = !aspas; // alterna o estado de aspas
             else if ((c == ',' || c == ';') && !aspas) { // se encontrar uma vírgula ou ponto e vírgula fora de aspas, finaliza o elemento
-                if (eArray || (i + 1 >= str.length() || str.charAt(i + 1) != ' ')) { // se for um array ou não houver espaço após a vírgula
+                if (eArray || (i + 1 >= len || str.charAt(i + 1) != ' ')) { // se for um array ou não houver espaço após a vírgula
                     if (campo.length() > 0) array[n++] = campo; // armazena o elemento no array se não estiver vazio
                     campo = ""; // reseta a variável temporária
                 } else campo += c; // adiciona o caractere ao elemento atual
@@ -328,7 +337,8 @@ public class exercicio1 {
         if (str == null || str.length() == 0) return ""; // tratamento para string nula ou vazia
 
         int ini = 0, fim = str.length() - 1; // índices para início e fim da string
-        while (ini <= fim && (str.charAt(ini) == ' ' || str.charAt(ini) == '\t')) ini++; // ignora espaços iniciais
+        int len = str.length(); // tamanho da string
+        while (ini < len && (str.charAt(ini) == ' ' || str.charAt(ini) == '\t')) ini++; // ignora espaços iniciais
         while (fim >= ini && (str.charAt(fim) == ' ' || str.charAt(fim) == '\t')) fim--; // ignora espaços finais
 
         if (fim >= ini + 1 && str.charAt(ini) == '"' && str.charAt(fim) == '"') { // verifica se há aspas nas extremidades
@@ -348,7 +358,8 @@ public class exercicio1 {
         String campo = ""; // variável temporária para armazenar o campo atual
         boolean aspas = false; // variável para controle de aspas
 
-        for (int i = 0; i < str.length(); i++) { // loop para percorrer os caracteres da string
+        int len = str.length(); // tamanho da string
+        for (int i = 0; i < len; i++) { // loop para percorrer os caracteres da string
             char c = str.charAt(i);
             if (c == '"') aspas = !aspas; // alterna o estado de aspas
             else if (c == ',' && !aspas) { // se encontrar uma vírgula fora de aspas, finaliza o campo
@@ -380,8 +391,9 @@ public class exercicio1 {
         game.setEstimatedOwners(inteiro(campos[3] == null ? "" : campos[3])); // setagem da estimativa de compradores
 
         // setagem do preço
-        if (comparar(campos[4] == null ? "" : campos[4], "Free to Play")) game.setPrice(0.0f); // tratamento especial para "Free to Play"
-        else game.setPrice(real(campos[4] == null ? "" : campos[4]));
+        String precoStr = campos[4] == null ? "" : campos[4]; // pega o campo de preço com tratamento para nulo
+        if (precoStr.equals("Free to Play")) game.setPrice(0.0f); // tratamento especial para "Free to Play"
+        else game.setPrice(real(precoStr));
 
         game.setSupportedLanguages(processarLista(campos[5])); // setagem dos idiomas suportados
 
@@ -392,8 +404,8 @@ public class exercicio1 {
 
         // setagem da nota atribuída pelos usuários
         String campoUser = campos[7] == null ? "" : campos[7];
-        if (campoUser.length() == 0 || comparar(campoUser, "tbd")) game.setUserScore(-1.0f); // tratamento para "tbd"
-        else game.setUserScore(real(campos[7] == null ? "" : campos[7]));
+        if (campoUser.length() == 0 || campoUser.equals("tbd")) game.setUserScore(-1.0f); // tratamento para "tbd"
+        else game.setUserScore(real(campoUser));
 
         game.setAchievements(inteiro(campos[8] == null ? "" : campos[8])); // setagem de conquistas disponíveis
         game.setPublishers(processarLista(campos[9])); // setagem dos responsáveis pela publicação
@@ -403,9 +415,9 @@ public class exercicio1 {
         game.setTags(processarLista(campos[13])); // setagem das tags
     }
 
-    public static void main(String[] args) { // main do programa
+    public static void main (String[] args) { // main do programa
         String entrada = sc.nextLine(); // declaração e leitura da entrada
-        while (!comparar(entrada, "FIM")) { // enquanto a entrada não for "FIM"
+        while (!entrada.equals("FIM")) { // enquanto a entrada não for "FIM"
             int cod = inteiro(entrada); // converte a entrada para inteiro
             File arq = new File("/tmp/games.csv"); // abertura do arquivo para leitura
 
@@ -413,15 +425,19 @@ public class exercicio1 {
                 Scanner leitor = new Scanner(arq, "UTF-8"); // leitura do arquivo
                 leitor.nextLine(); // ler a primeira linha (cabeçalho) e ignorar
 
-                boolean encontrado = false;
+                boolean encontrado = false; // flag para indicar se o jogo foi encontrado
                 while (!encontrado && leitor.hasNextLine()) { // ler cada linha do arquivo
                     String linha = leitor.nextLine(); // declaração e leitura da linha
 
-                    int iLin = 0, iId = 0; // índices para extrair o id da linha e da entrada
+                    int lenLinha = linha.length(); // tamanho da linha
+                    int iLin = 0; // índice para percorrer a linha
                     String idGame = ""; // variável para armazenar o id do jogo
-                    while (iLin < linha.length() && linha.charAt(iLin) != ',' && iId < 9) { // loop para extrair o id da linha
-                        idGame += linha.charAt(iLin); // adiciona o caractere ao id do jogo
-                        iLin++; iId++;
+                    boolean virgula = false; // flag para indicar se encontrou a vírgula
+                    while (iLin < lenLinha && !virgula) { // loop para extrair o id do jogo até a vírgula
+                        char c = linha.charAt(iLin);
+                        if (c == ',') virgula = true; // Sai early na virgula
+                        else idGame += c; // atribui o caractere ao id do jogo
+                        iLin++;
                     }
 
                     if (cod == inteiro(idGame)) { // se o id da linha for igual ao código procurado
