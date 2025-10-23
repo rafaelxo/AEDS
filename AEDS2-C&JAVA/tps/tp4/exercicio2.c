@@ -1,64 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-int length (char *str) { // método para obter o tamanho da string
-    if (!str) return 0; // se a string for nula, retorna 0
-
-    int i = 0; // inicializa o índice
-    while (str[i] != '\0') i++; // percorre a string até o caractere nulo
-
-    return i; // retorna o tamanho da string
-}
-
-bool comparar (char *a, char *b) { // método para comparar duas strings
-    if (a == NULL || b == NULL) return false; // se alguma for nula, retorna false
-
-    int i = 0; // inicializa o índice
-    while (a[i] != '\0' && b[i] != '\0') { // percorre ambas as strings enquanto não chegar ao final
-        if (a[i] != b[i]) return false; // se algum caractere for diferente, retorna false
-        i++;
-    }
-
-    return a[i] == '\0' && b[i] == '\0'; // retorna true se ambas chegaram ao final, caso contrário false
-}
-
-char *copiar (char *a, char *b) { // método para copiar uma string em outra
-    char *str = a; // guarda o início da string saida
-
-    if (!a) return a; // se saida for nula, retorna saida
-    if (!b) { // se entrada for nula, finaliza saida como string vazia
-        *a = '\0'; // finaliza a string saida
-        return a; // retorna saida
-    }
-
-    while (*b != '\0') { // enquanto não chegar ao final da string entrada
-        *a = *b; // copia o caractere de entrada para saida
-        a++; b++; // avança ambos os ponteiros
-    }
-    *a = '\0'; // finaliza a string saida com o caractere nulo
-
-    return str; // retorna o início da string saida
-}
-
-char *concatenar (char *a, char *b) { // método para concatenar duas strings
-    char *str = a; // guarda o início da string a
-
-    if (!a) return a; // se a for nula, retorna a
-    while (*a != '\0') a++; // avança até o final da string a
-    if (!b) { // se b for nula, finaliza a como string vazia
-        *a = '\0';
-        return str; // retorna a string a
-    }
-
-    while (*b != '\0') { // enquanto não chegar ao final da string b
-        *a = *b; // copia o caractere de b para a
-        a++; b++; // avança ambos os ponteiros
-    }
-    *a = '\0';
-
-    return str; // retorna a string a
-}
+#include <string.h>
 
 bool espaco (char c) { // método para verificar se um caractere é espaço em branco
     return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v'; // verifica os tipos de espaço em branco
@@ -67,7 +10,7 @@ bool espaco (char c) { // método para verificar se um caractere é espaço em b
 void trim (char *str) { // método para remover espaços em branco do início e fim da string
     if (str == NULL) return; // se a string for nula, retorna
 
-    int ini = 0, fim = length(str) - 1; // índices para o início e fim da string
+    int ini = 0, fim = (int)strlen(str) - 1; // índices para o início e fim da string
     while (ini <= fim && espaco(str[ini])) ini++; // remove espaços em branco do início
     while (fim >= ini && espaco(str[fim])) fim--; // remove espaços em branco do fim
 
@@ -80,7 +23,7 @@ void limparAspas (char *str) { // método para remover aspas do início e fim da
     if (!str) return; // se a string for nula, retorna
 
     trim(str); // remove espaços em branco do início e fim
-    int n = length(str); // obtém o tamanho da string
+    int n = (int)strlen(str); // obtém o tamanho da string
     if (n >= 2) { // se a string tiver pelo menos 2 caracteres
         char ini = str[0], fim = str[n - 1]; // obtém o primeiro e o último caractere
         if ((ini == '\"' && fim == '\"') || (ini == '\'' && fim == '\'')) { // se ambos forem aspas simples ou duplas
@@ -95,7 +38,7 @@ void limparAspas (char *str) { // método para remover aspas do início e fim da
 int inteiro (char *str) { // método para converter string em int
     if (!str) return 0; // se a string for nula, retorna 0
 
-    int i = 0, fim = length(str) - 1; // inicializa os índices para percorrer a string
+    int i = 0, fim = (int)strlen(str) - 1; // inicializa os índices para percorrer a string
     while (i <= fim && espaco(str[i])) i++; // remove espaços em branco do início
     while (fim >= i && espaco(str[fim])) fim--; // remove espaços em branco do fim
 
@@ -120,7 +63,7 @@ int inteiro (char *str) { // método para converter string em int
 float real (char *str) { // método para converter string em float
     if (!str) return 0.0f; // se a string for nula, retorna 0.0
 
-    int i = 0, fim = length(str) - 1; // inicializa os índices para percorrer a string
+    int i = 0, fim = (int)strlen(str) - 1; // inicializa os índices para percorrer a string
     while (i <= fim && espaco(str[i])) i++; // remove espaços em branco do início
     while (fim >= i && espaco(str[fim])) fim--; // remove espaços em branco do fim
 
@@ -156,17 +99,17 @@ void setData (Data *data, char *str) { // método para setar a data a partir de 
     data->mes = 1;
     data->ano = 1;
 
-    if (!str || length(str) == 0) return; // se a string for nula ou vazia, mantém valores padrão
+    if (!str || strlen(str) == 0) return; // se a string for nula ou vazia, mantém valores padrão
 
     char meses[12][4] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; // array com os meses abreviados
 
     char mes[4] = {0}; // array para armazenar o mês
     int i = 0; // índice para percorrer a string de origem
-    for (i = 0; i < 3 && i < length(str); i++) mes[i] = str[i]; // copia os três primeiros caracteres (mês)
+    for (i = 0; i < 3 && i < (int)strlen(str); i++) mes[i] = str[i]; // copia os três primeiros caracteres (mês)
     mes[3] = '\0'; // finaliza a string do mês
 
     for (int j = 0; j < 12; j++) { // loop para encontrar o número do mês correspondente
-        if (comparar(mes, meses[j])) { // se encontrar o mês
+        if (strcmp(mes, meses[j]) == 0) { // se encontrar o mês
             data->mes = j + 1; // atribui o número do mês (1-12)
             break;
         }
@@ -174,7 +117,7 @@ void setData (Data *data, char *str) { // método para setar a data a partir de 
 
     i = 4; // índice para percorrer a string
     int dia = 0;
-    while (i < length(str) && str[i] >= '0' && str[i] <= '9') { // enquanto encontrar dígitos
+    while (i < (int)strlen(str) && str[i] >= '0' && str[i] <= '9') { // enquanto encontrar dígitos
         dia = dia * 10 + (str[i] - '0'); // converte para número
         i++;
     }
@@ -182,7 +125,7 @@ void setData (Data *data, char *str) { // método para setar a data a partir de 
 
     i += 2; // pula o espaço e vírgula após o dia
     int ano = 0;
-    while (i < length(str) && str[i] >= '0' && str[i] <= '9') { // enquanto encontrar dígitos
+    while (i < (int)strlen(str) && str[i] >= '0' && str[i] <= '9') { // enquanto encontrar dígitos
         ano = ano * 10 + (str[i] - '0'); // converte para número
         i++;
     }
@@ -279,7 +222,7 @@ void formatarData (Data *data, char dest[]) { // método para formatar a data co
     dest[0] = '\0'; // inicializa a string de destino como vazia
 
     if (data == NULL) { // se o ponteiro for nulo
-        copiar(dest, "01/01/0001"); // copia a data padrão
+        strcpy(dest, "01/01/0001"); // copia a data padrão
         return;
     }
 
@@ -318,11 +261,11 @@ void formatarData (Data *data, char dest[]) { // método para formatar a data co
         ano[4] = '\0';
     }
 
-    concatenar(dest, diaNum);
-    concatenar(dest, "/");
-    concatenar(dest, mesNum);
-    concatenar(dest, "/");
-    concatenar(dest, ano); // concatena dia, mês e ano no formato dd/mm/aaaa
+    strcat(dest, diaNum);
+    strcat(dest, "/");
+    strcat(dest, mesNum);
+    strcat(dest, "/");
+    strcat(dest, ano); // concatena dia, mês e ano no formato dd/mm/aaaa
 }
 
 void formatarPreco (float preco) { // método para formatar o preço conforme o enunciado
@@ -340,7 +283,7 @@ void processarLinha (char *linha, Game *game) { // método para processar a linh
     if (ncampos > 0) game->id = inteiro(campos[0]); // converter o primeiro campo para inteiro e armazenar no id
 
     if (ncampos > 1) { // processar o segundo campo para nome
-        copiar(game->name, campos[1]); // copiar o segundo campo para o nome
+        strcpy(game->name, campos[1]); // copiar o segundo campo para o nome
         trim(game->name);
     }
 
@@ -363,9 +306,9 @@ void processarLinha (char *linha, Game *game) { // método para processar a linh
 
     if (ncampos > 4) { // processar o quinto campo para preço
         char preco[100]; // array para armazenar o preço
-        copiar(preco, campos[4]);
+        strcpy(preco, campos[4]);
         trim(preco);
-        if (comparar(preco, "Free to Play") || length(preco) == 0) game->price = 0.0f; // se for "Free to Play" ou estiver vazio, o preço é 0.0
+        if (strcmp(preco, "Free to Play") == 0 || strlen(preco) == 0) game->price = 0.0f; // se for "Free to Play" ou estiver vazio, o preço é 0.0
         else game->price = real(preco); // caso contrário, converter para float e armazenar no preço
     }
 
@@ -376,25 +319,25 @@ void processarLinha (char *linha, Game *game) { // método para processar a linh
 
     if (ncampos > 6) { // processar o sétimo campo para pontuação do Metacritic
         char meta[100]; // array para armazenar a pontuação do Metacritic
-        copiar(meta, campos[6]);
+        strcpy(meta, campos[6]);
         trim(meta);
-        if (length(meta) == 0) game->metacriticScore = -1; // se estiver vazio, a pontuação é -1
+        if (strlen(meta) == 0) game->metacriticScore = -1; // se estiver vazio, a pontuação é -1
         else game->metacriticScore = inteiro(meta); // caso contrário, converter para inteiro e armazenar na pontuação do Metacritic
     }
 
     if (ncampos > 7) { // processar o oitavo campo para pontuação do usuário
         char user[100]; // array para armazenar a pontuação do usuário
-        copiar(user, campos[7]);
+        strcpy(user, campos[7]);
         trim(user);
-        if (length(user) == 0 || comparar(user, "tbd")) game->userScore = -1.0f; // se estiver vazio ou for "tbd", a pontuação é -1.0
+        if (strlen(user) == 0 || strcmp(user, "tbd") == 0) game->userScore = -1.0f; // se estiver vazio ou for "tbd", a pontuação é -1.0
         else game->userScore = real(user); // caso contrário, converter para float e armazenar na pontuação do usuário
     }
 
     if (ncampos > 8) { // processar o nono campo para conquistas
         char ach[100]; // array para armazenar as conquistas
-        copiar(ach, campos[8]); // copiar o campo para uma variável temporária
+        strcpy(ach, campos[8]); // copiar o campo para uma variável temporária
         trim(ach);
-        if (length(ach) == 0) game->achievements = 0; // se estiver vazio, as conquistas são 0
+        if (strlen(ach) == 0) game->achievements = 0; // se estiver vazio, as conquistas são 0
         else game->achievements = inteiro(ach); // caso contrário, converter para inteiro e armazenar nas conquistas
     }
 
@@ -453,16 +396,17 @@ void mostrar (Game *g) { // método para mostrar os dados do jogo para cada atri
 
 int main() { // main do programa
     char entrada[10]; // declaração e leitura da entrada
-    while (!comparar(entrada, "FIM")) { // enquanto a entrada não for "FIM"
+    scanf("%s", entrada);
+    while (strcmp(entrada, "FIM") != 0) { // enquanto a entrada não for "FIM"
         int cod = inteiro(entrada); // converte a entrada para inteiro
-        FILE *arq = fopen("/tmp/games.csv", "r"); // abertura do arquivo para leitura
+        FILE *arq = fopen("games.csv", "r"); // abertura do arquivo para leitura
 
         char linha[2000]; // buffer para ler cada linha do arquivo
         fgets(linha, sizeof(linha), arq); // ler a primeira linha (cabeçalho) e ignorar
 
         bool encontrado = false;
         while (!encontrado && fgets(linha, sizeof(linha), arq) != NULL) { // ler cada linha do arquivo
-            int len = length(linha); // obter o tamanho da linha lida
+            int len = (int)strlen(linha); // obter o tamanho da linha lida
             if (len > 0 && linha[len - 1] == '\n') linha[len - 1] = '\0'; // remove o caractere de nova linha, se presente
 
             int iLin = 0, iId = 0; // índice para percorrer as linhas
