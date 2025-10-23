@@ -94,12 +94,12 @@ typedef struct { // estrutura para armazenar a data com dia, mês e ano
     int dia, mes, ano;
 } Data;
 
-void setData (Data *data, char *str) { // método para setar a data a partir de uma string
+void setData(Data *data, char *str) { // método para setar a data a partir de uma string
     data->dia = 1;
     data->mes = 1;
-    data->ano = 1;
+    data->ano = 0; // inicializa a data com valores padrão
 
-    if (!str || strlen(str) == 0) return; // se a string for nula ou vazia, mantém valores padrão
+    if (!str || strlen(str) < 8) return; // se a string for nula ou vazia, mantém valores padrão
 
     char meses[12][4] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}; // array com os meses abreviados
 
@@ -115,21 +115,27 @@ void setData (Data *data, char *str) { // método para setar a data a partir de 
         }
     }
 
-    i = 4; // índice para percorrer a string
-    int dia = 0;
-    while (i < (int)strlen(str) && str[i] >= '0' && str[i] <= '9') { // enquanto encontrar dígitos
-        dia = dia * 10 + (str[i] - '0'); // converte para número
-        i++;
+    char dia[3] = "01"; // array para armazenar o dia
+    char ano[5] = {0}; // array para armazenar o ano
+    if (strlen(str) == 8 && str[3] == ' ') { // se o formato for "Mmm d yyyy"
+        strncpy(ano, str + 4, 4);
+        ano[4] = '\0';
+    } else if (str[5] == ',') { // se o formato for "Mmm d, yyyy"
+        dia[0] = '0';
+        dia[1] = str[4]; // copia o dia com zero à esquerda
+        dia[2] = '\0';
+        strncpy(ano, str + 7, 4); // copia os 4 caracteres do ano
+        ano[4] = '\0';
+    } else { // se o formato for "Mmm dd, yyyy"
+        dia[0] = str[4];
+        dia[1] = str[5]; // copia o dia
+        dia[2] = '\0';
+        strncpy(ano, str + 8, 4); // copia os 4 caracteres do ano
+        ano[4] = '\0';
     }
-    if (dia > 0) data->dia = dia; // se houver dia válido, atribui
 
-    i += 2; // pula o espaço e vírgula após o dia
-    int ano = 0;
-    while (i < (int)strlen(str) && str[i] >= '0' && str[i] <= '9') { // enquanto encontrar dígitos
-        ano = ano * 10 + (str[i] - '0'); // converte para número
-        i++;
-    }
-    if (ano >= 1000 && ano <= 9999) data->ano = ano; // se o ano tiver 4 dígitos, atribui
+    data->dia = atoi(dia); // converte string dia para inteiro
+    data->ano = atoi(ano); // converte string ano para inteiro
 }
 
 typedef struct { // estrutura para armazenar os dados do jogo com seus atributos
@@ -399,7 +405,7 @@ int main() { // main do programa
     scanf("%s", entrada);
     while (strcmp(entrada, "FIM") != 0) { // enquanto a entrada não for "FIM"
         int cod = inteiro(entrada); // converte a entrada para inteiro
-        FILE *arq = fopen("games.csv", "r"); // abertura do arquivo para leitura
+        FILE *arq = fopen("/tmp/games.csv", "r"); // abertura do arquivo para leitura
 
         char linha[2000]; // buffer para ler cada linha do arquivo
         fgets(linha, sizeof(linha), arq); // ler a primeira linha (cabeçalho) e ignorar

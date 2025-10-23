@@ -12,7 +12,7 @@ public class exercicio1 {
         public Data() { // construtor padrão
             this.dia = 1;
             this.mes = 1;
-            this.ano = 1;
+            this.ano = 0;
         }
         public Data (int dia, int mes, int ano) { // construtor com parâmetros
             setDia(dia);
@@ -35,7 +35,7 @@ public class exercicio1 {
             if (str == null || str.length() == 0) { // tratamento para string nula ou vazia
                 this.dia = 1;
                 this.mes = 1;
-                this.ano = 1;
+                this.ano = 0;
                 return; // seta data padrão e retorna
             }
 
@@ -61,7 +61,7 @@ public class exercicio1 {
             for (int j = 0; j < 12; j++) { // loop para encontrar o mês correspondente
                 if (mesStr.equals(meses[j])) { // se encontrar o mês (usa equals)
                     this.mes = j + 1; // atribui o número do mês correspondente
-                    break; // força saída do loop
+                    break;
                 }
             }
 
