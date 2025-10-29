@@ -202,7 +202,7 @@ public class exercicio3 {
             int lenArr = arr.length; // tamanho do array
             for (int i = 0; i < lenArr; i++) { // loop para percorrer o array
                 result += arr[i]; // adiciona o elemento atual
-                if (i < lenArr - 1) result += ", "; // se não for o último elemento, adiciona vírgula e espaço (early check)
+                if (i < lenArr - 1) result += ", "; // se não for o último elemento, adiciona vírgula e espaço
             }
             result += "]"; // fecha a lista
 
@@ -483,7 +483,7 @@ public class exercicio3 {
                     boolean virgula = false; // flag para indicar se encontrou a vírgula
                     while (iLin < lenLinha && !virgula) { // loop para extrair o id do jogo até a vírgula
                         char c = linha.charAt(iLin);
-                        if (c == ',') virgula = true; // Sai early na virgula
+                        if (c == ',') virgula = true; // sai antes na vírgula
                         else idGame += c; // atribui o caractere ao id do jogo
                         iLin++;
                     }
