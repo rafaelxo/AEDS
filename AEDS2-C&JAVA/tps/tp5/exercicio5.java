@@ -465,14 +465,14 @@ public class exercicio5 {
         }
 
         while (i < n1) { // copia os elementos restantes da primeira metade, se houver
-            comparacoes++; // contabiliza a comparação
+            comparacoes++;
             jogos[k] = esquerda[i]; // atribui o elemento da primeira metade ao array original
             movimentacoes++;
             i++; k++;
         }
 
         while (j < n2) { // copia os elementos restantes da segunda metade, se houver
-            comparacoes++; // contabiliza a comparação
+            comparacoes++;
             jogos[k] = direita[j]; // atribui o elemento da segunda metade ao array original
             movimentacoes++;
             j++; k++;
@@ -481,7 +481,6 @@ public class exercicio5 {
 
     public static void mergesort (Game[] jogos, int esq, int dir) { // método para ordenar um array de jogos pelo preço através do mergesort
         if (esq < dir) { // se o índice esquerdo for menor que o direito
-            comparacoes++; // contabiliza a comparação
             int meio = esq + (dir - esq) / 2; // calcula o índice do meio
             mergesort(jogos, esq, meio); // ordena a primeira metade
             mergesort(jogos, meio + 1, dir); // ordena a segunda metade
