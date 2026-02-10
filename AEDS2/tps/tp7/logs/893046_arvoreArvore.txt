@@ -1,0 +1,1 @@
+Matrícula: 893046	Tempo de execução: 7ms	Número de comparações: 418

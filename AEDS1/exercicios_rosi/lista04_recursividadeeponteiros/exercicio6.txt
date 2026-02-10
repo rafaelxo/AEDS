@@ -1,0 +1,6 @@
+Questão 6 - Lista04_Recursividade e Ponteiros
+
+p++ = incrementa o ponteiro para apontar para o próximo elemento na memória;
+(*p)++ = acréscimo de uma unidade no valor do conteúdo da variável para a qual o ponteiro aponta;
+*(p++) = incrementa o valor do conteúdo ao próprio conteúdo apontado pelo ponteiro, após sua leitura;
+A expressão *(p+10) se refere ao acesso do valor que está 10 posições à frente do endereço apontado pelo ponteiro;

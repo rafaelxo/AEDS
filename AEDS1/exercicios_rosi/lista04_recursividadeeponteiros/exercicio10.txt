@@ -1,0 +1,5 @@
+Questão 10 - Lista04_Recursividade e Ponteiros
+
+As diferenças ocorrem nas linhas 8 e 10.
+No código 1 para a linha 8, o que ocorre é o acréscimo de uma unidade no valor do conteúdo de "*ptr" (inicialmente 10) a cada iteração do laço, aumentando em 5 unidades (totalizando 15). Já no código 2, o que acontece é o deslocamento do ponteiro "ptr" para o próximo endereço de memória a cada iteração da repetição (sem alterar o valor do conteúdo de "*ptr"), avançando 5 vezes;
+No código 1 para a linha 10, o valor do conteúdo de "*ptr" é impresso, sendo 15 após os 5 incrementos realizados anteriormente no laço. Já no código 2, o endereço de memória para o qual "ptr" foi movido é impresso, mas esse endereço pode ser inválido, pois o ponteiro foi deslocado para uma posição fora do bloco de memória originalmente alocado com malloc, resultando em um comportamento indefinido.

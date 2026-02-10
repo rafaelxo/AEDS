@@ -1,0 +1,4 @@
+Questão 8 - Lista04_Recursividade e Ponteiros
+
+O erro se faz presente na linha 8, que está printando o endereço de q, não seu valor!
+O correto seria: printf("\n%d\n", x); ou printf("\n%d\n", *p); ou printf("\n%d\n", **q); ou até printf("\n%d\n", *(*q));
