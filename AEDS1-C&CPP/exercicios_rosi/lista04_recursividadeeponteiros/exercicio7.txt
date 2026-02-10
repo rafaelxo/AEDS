@@ -1,6 +1,0 @@
-Questão 7 - Lista04_Recursividade e Ponteiros
-
-Alternativa A: Incorreta, pois o valor da variável "valor" está sendo comparado ao endereço do ponteiro "valorPtr", onde, nesse caso, os resultados são diferentes;
-Alternativa B: Correta, já que, nesse caso, o conteúdo armazenado no endereço para o qual o ponteiro "valorPtr" está apontando, está sendo igualado ao valor da variável "valor";
-Alternativa C: Também correta, uma vez que a variável "valorPtr" está guardando o endereço da variável "valor", assumindo seu conteúdo;
-Alternativa D: Incorreta, pois, de acordo com o enunciado, a variável "valor" não é um ponteiro, o que acontece, nesse caso, é uma tentativa inválida de desreferenciar um valor.

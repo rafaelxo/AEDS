@@ -1,1 +1,0 @@
-Matrícula: 893046	Tempo de execução: 0ms	Número de comparações: 4950	Número de movimentações: 282
