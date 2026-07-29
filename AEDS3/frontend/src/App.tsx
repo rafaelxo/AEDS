@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router";
 import { useStore } from "./app/store";
 import { authService, hasSessionToken } from "./services/api";
 import AppLayout from "./layouts/AppLayout";

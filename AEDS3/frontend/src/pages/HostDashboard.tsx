@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Building2, CalendarDays, TrendingUp, ArrowRight, Plus, MapPin, Users } from "lucide-react";
 import {
   imoveisService,

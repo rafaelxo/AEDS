@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Eye, EyeOff, ArrowRight, User, Mail, Lock, Phone } from "lucide-react";
 import { authService } from "../../services/api";
 import { useStore } from "../../app/store";
