@@ -10,10 +10,10 @@ public class RepresentacaoGrafo {
         System.out.print("Insira o número do vértice alvo: ");
         int verticeAlvo = sc.nextInt();
 
-        List<List<Integer>> arestasSaida = new ArrayList<>();
-        List<List<Integer>> arestasEntrada = new ArrayList<>();
         int numVertices = 0;
         int numArestas = 0;
+        List<List<Integer>> arestasSaida = new ArrayList<>();
+        List<List<Integer>> arestasEntrada = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
             String linha = br.readLine();
@@ -25,46 +25,36 @@ public class RepresentacaoGrafo {
             StringTokenizer st = new StringTokenizer(linha);
             numVertices = Integer.parseInt(st.nextToken());
             numArestas = Integer.parseInt(st.nextToken());
-
             for (int i = 0; i <= numVertices; i++) {
                 arestasSaida.add(new ArrayList<>());
                 arestasEntrada.add(new ArrayList<>());
             }
-
             for (int i = 0; i < numArestas; i++) {
                 linha = br.readLine();
-                if (linha == null)
-                    break;
+                if (linha == null) break;
 
                 st = new StringTokenizer(linha);
                 int origem = Integer.parseInt(st.nextToken());
                 int destino = Integer.parseInt(st.nextToken());
-
-                // Correção: usando .get() ao invés de []
                 arestasSaida.get(origem).add(destino);
                 arestasEntrada.get(destino).add(origem);
             }
 
             System.out.println("Leitura concluída com sucesso!\n");
-
         } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo: " + e.getMessage());
             return;
         }
 
         if (verticeAlvo < 1 || verticeAlvo > numVertices) {
-            System.out.println("Erro: O vértice informado (" + verticeAlvo
-                    + ") não existe no grafo. Os vértices vão de 1 a " + numVertices + ".");
+            System.out.println("Erro: O vértice informado (" + verticeAlvo + ") não existe no grafo. Os vértices vão de 1 a " + numVertices + ".");
             return;
         }
 
-        // Correção: usando .get() ao invés de []
         List<Integer> sucessores = arestasSaida.get(verticeAlvo);
         List<Integer> predecessores = arestasEntrada.get(verticeAlvo);
-
         Collections.sort(sucessores);
         Collections.sort(predecessores);
-
         int grauSaida = sucessores.size();
         int grauEntrada = predecessores.size();
 
