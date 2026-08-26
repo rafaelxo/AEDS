@@ -4,15 +4,14 @@ import java.io.*;
 public class RepresentacaoGrafo {
     public static Scanner sc = new Scanner(System.in);
 
-    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         System.out.print("Insira o nome do arquivo: ");
         String nomeArquivo = sc.nextLine();
         System.out.print("Insira o número do vértice alvo: ");
         int verticeAlvo = sc.nextInt();
 
-        List<Integer>[] arestasSaida = null;
-        List<Integer>[] arestasEntrada = null;
+        List<List<Integer>> arestasSaida = new ArrayList<>();
+        List<List<Integer>> arestasEntrada = new ArrayList<>();
         int numVertices = 0;
         int numArestas = 0;
 
@@ -27,12 +26,9 @@ public class RepresentacaoGrafo {
             numVertices = Integer.parseInt(st.nextToken());
             numArestas = Integer.parseInt(st.nextToken());
 
-            arestasSaida = new ArrayList[numVertices + 1];
-            arestasEntrada = new ArrayList[numVertices + 1];
-
-            for (int i = 1; i <= numVertices; i++) {
-                arestasSaida[i] = new ArrayList<>();
-                arestasEntrada[i] = new ArrayList<>();
+            for (int i = 0; i <= numVertices; i++) {
+                arestasSaida.add(new ArrayList<>());
+                arestasEntrada.add(new ArrayList<>());
             }
 
             for (int i = 0; i < numArestas; i++) {
@@ -44,8 +40,9 @@ public class RepresentacaoGrafo {
                 int origem = Integer.parseInt(st.nextToken());
                 int destino = Integer.parseInt(st.nextToken());
 
-                arestasSaida[origem].add(destino);
-                arestasEntrada[destino].add(origem);
+                // Correção: usando .get() ao invés de []
+                arestasSaida.get(origem).add(destino);
+                arestasEntrada.get(destino).add(origem);
             }
 
             System.out.println("Leitura concluída com sucesso!\n");
@@ -55,15 +52,15 @@ public class RepresentacaoGrafo {
             return;
         }
 
-        // 3. Processar e imprimir as informações do vértice alvo
         if (verticeAlvo < 1 || verticeAlvo > numVertices) {
             System.out.println("Erro: O vértice informado (" + verticeAlvo
                     + ") não existe no grafo. Os vértices vão de 1 a " + numVertices + ".");
             return;
         }
 
-        List<Integer> sucessores = arestasSaida[verticeAlvo];
-        List<Integer> predecessores = arestasEntrada[verticeAlvo];
+        // Correção: usando .get() ao invés de []
+        List<Integer> sucessores = arestasSaida.get(verticeAlvo);
+        List<Integer> predecessores = arestasEntrada.get(verticeAlvo);
 
         Collections.sort(sucessores);
         Collections.sort(predecessores);
